@@ -911,7 +911,7 @@ input:focus,select:focus,textarea:focus {
   <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-bottom:1.75rem">
     <div>
       <div class="page-title">Viviendas</div>
-      <div class="page-sub">Exporta e importa el JSON para sincronizar entre los 3 usuarios.</div>
+      <div class="page-sub">Sincronización automática en tiempo real entre los 3 usuarios.</div>
     </div>
     <div class="tabs">
       <button class="tab active" onclick="filtrar('todas',this)">Todas</button>
@@ -1193,7 +1193,7 @@ INSTRUCCIONES:
    - beneficio_estimado = beneficio_neto_minimo
    - EN gastos_venta_detalle indica: "Beneficio neto en SL antes de dividendos. Distribución de dividendos tributa 19% adicional en el socio."
    - valor_minimo_puja = valor mínimo de adjudicación (acreedor puede pedir adjudicación directa), NO mínimo para participar.
-5. FECHA FIN: Busca la fecha de cierre de la subasta en todos los documentos. En el BOE suele aparecer como "Fecha de conclusión" o en el edicto judicial. Devuélvela SIEMPRE en formato DD/MM/AAAA. Si no aparece en ningún documento, devuelve null (no el placeholder).
+5. FECHA FIN: Es CRÍTICO encontrar esta fecha. Búscala exhaustivamente en todos los documentos con estos nombres: "Fecha de conclusión", "Fecha límite", "Fecha de cierre", "Fecha fin", "hasta el día", "el plazo finaliza", "fecha de celebración", "señalada para el día". En el BOE suele aparecer en el edicto judicial como "señalándose para la celebración del remate el día DD de MES de AAAA" o "hasta las HH:MM horas del día DD/MM/AAAA". Devuélvela SIEMPRE en formato DD/MM/AAAA. Si encuentras la hora también, devuélvela en hora_fin como HH:MM. Si no aparece en ningún documento devuelve null (nunca el placeholder).
 6. En alertas, cita siempre el documento o dato concreto. Máximo 8 alertas.
 7. analisis: máximo 200 palabras. resumen_ejecutivo: máximo 2 frases.
 8. IMPORTANTE: El JSON debe estar completo y bien cerrado. No lo trunces.
@@ -1663,6 +1663,16 @@ function renderLista(){
     const mf=filtroActual==='todas'||(filtroActual==='activas'&&p._estado==='activa')||(filtroActual==='archivadas'&&p._estado!=='activa');
     return ms&&mf;
   });
+
+  // Ordenar por fecha fin ascendente — sin fecha al final
+  function fechaTs(p){
+    const f=p.fecha_fin;
+    if(!f||f==='DD/MM/AAAA'||!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(f)) return Infinity;
+    const pts=f.split('/');
+    return new Date(parseInt(pts[2]),parseInt(pts[1])-1,parseInt(pts[0])).getTime();
+  }
+  lista.sort((a,b)=>fechaTs(a)-fechaTs(b));
+
   const c=document.getElementById('lista-container');
   if(!lista.length){
     c.innerHTML=`<div class="empty-state"><div class="empty-house">🏠</div><h3>Sin viviendas guardadas</h3><p>Analiza tu primera subasta y guárdala aquí.</p></div>`;
