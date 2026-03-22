@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SubastasAPP — Quiero Vigas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --clay:     #B85C2C;
+  --clay-d:   #8A3F18;
+  --clay-l:   #F2E0D4;
+  --clay-xl:  #FBF5F1;
+  --sand:     #E8D5C0;
+  --sand-d:   #C4A882;
+  --stone:    #6B6057;
+  --stone-l:  #A89990;
+  --ink:      #1E1712;
+  --cream:    #FEFCFA;
+  --white:    #FFFFFF;
+  --sage:     #4A7C59;
+  --sage-l:   #D6EAD9;
+  --rust:     #9B3A1A;
+  --rust-l:   #F7E0D8;
+  --gold:     #A07830;
+  --gold-l:   #F5EDD8;
+  --sky:      #2D5F8A;
+  --sky-l:    #D8E9F5;
+  --r:        14px;
+  --r-sm:     8px;
+  --r-lg:     20px;
+  --shadow:   0 2px 12px rgba(30,23,18,.08);
+  --shadow-md:0 4px 24px rgba(30,23,18,.12);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--ink);
+  padding: 0 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-icon {
+  width: 52px;
+  height: 52px;
+  background: var(--clay);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-icon svg { display: block; }
+
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: var(--cream);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.logo-text em {
+  font-style: italic;
+  color: var(--clay);
+}
+
+.logo-sub {
+  font-size: 10px;
+  color: var(--stone-l);
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+nav { display: flex; gap: 2px; }
+
+nav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 18px;
+  border-radius: var(--r-sm);
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--stone-l);
+  transition: all .15s;
+  letter-spacing: 0.02em;
+}
+
+nav button:hover { background: rgba(255,255,255,.08); color: var(--cream); }
+nav button.active { background: var(--clay); color: white; font-weight: 500; }
+
+/* ── HERO STRIP ── */
+.hero-strip {
+  background: linear-gradient(135deg, var(--clay-d) 0%, var(--clay) 50%, #D4703A 100%);
+  padding: 2.5rem 2rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,.04) 39px, rgba(255,255,255,.04) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.04) 39px, rgba(255,255,255,.04) 40px);
+}
+
+.hero-strip::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0; right: 0;
+  height: 52px;
+  background: var(--cream);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  color: white;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+
+.hero-title em { font-style: italic; color: var(--sand); }
+
+.hero-desc { color: rgba(255,255,255,.75); font-size: 14px; font-weight: 300; }
+
+/* ── LAYOUT ── */
+.main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── PAGE HEADER ── */
+.page-header { margin-bottom: 2rem; }
+.page-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; letter-spacing: -0.3px; margin-bottom: 6px; }
+.page-sub { color: var(--stone); font-size: 16px; font-weight: 300; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-lg);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.card-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--clay-xl);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--stone);
+}
+
+/* ── FORM ── */
+label { display: block; font-size: 15px; font-weight: 500; color: var(--stone); margin-bottom: 7px; }
+
+input[type=text],input[type=url],input[type=number],select,textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--sand);
+  border-radius: var(--r-sm);
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--cream);
+  margin-bottom: 1.25rem;
+  transition: border-color .2s, box-shadow .2s;
+  outline: none;
+}
+
+input:focus,select:focus,textarea:focus {
+  border-color: var(--clay);
+  box-shadow: 0 0 0 3px rgba(184,92,44,.12);
+  background: var(--white);
+}
+
+/* ── UPLOAD ── */
+.upload-zone {
+  border: 2px dashed var(--sand-d);
+  border-radius: var(--r);
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  background: var(--clay-xl);
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.upload-zone:hover,.upload-zone.dragging {
+  border-color: var(--clay);
+  background: var(--clay-l);
+  transform: scale(1.005);
+}
+
+.upload-house {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  opacity: .5;
+}
+
+.upload-text { font-size: 16px; color: var(--stone); }
+.upload-text strong { color: var(--clay); font-weight: 600; }
+.upload-text small { display: block; font-size: 14px; color: var(--stone-l); margin-top: 6px; }
+
+.file-list { list-style: none; }
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--sage-l);
+  border-radius: var(--r-sm);
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: var(--sage);
+  border: 1px solid rgba(74,124,89,.15);
+}
+
+.file-item .rm { margin-left: auto; cursor: pointer; color: var(--stone-l); font-size: 22px; background: none; border: none; line-height: 1; transition: color .15s; }
+.file-item .rm:hover { color: var(--rust); }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border-radius: var(--r-sm);
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all .15s;
+  letter-spacing: .01em;
+}
+
+.btn-primary {
+  background: var(--clay);
+  color: white;
+  box-shadow: 0 2px 8px rgba(184,92,44,.3);
+}
+.btn-primary:hover { background: var(--clay-d); box-shadow: 0 4px 14px rgba(184,92,44,.4); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { background: var(--sand); color: var(--stone-l); box-shadow: none; cursor: not-allowed; transform: none; }
+
+.btn-secondary {
+  background: var(--white);
+  border: 1.5px solid var(--sand);
+  color: var(--ink);
+}
+.btn-secondary:hover { background: var(--clay-xl); border-color: var(--clay); color: var(--clay-d); }
+
+.btn-block { width: 100%; justify-content: center; padding: 18px 24px; font-size: 18px; border-radius: var(--r); }
+
+/* ── SPINNER ── */
+.analyzing { text-align: center; padding: 4rem 1rem; display: none; }
+.spinner-wrap { position: relative; width: 72px; height: 72px; margin: 0 auto 1.5rem; }
+.spinner {
+  width: 72px; height: 72px;
+  border: 4px solid var(--sand);
+  border-top-color: var(--clay);
+  border-radius: 50%;
+  animation: spin .9s linear infinite;
+}
+.spinner-house { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.analyzing-text { color: var(--stone); font-size: 17px; font-weight: 300; }
+.analyzing-sub { color: var(--stone-l); font-size: 14px; margin-top: 6px; }
+
+/* ── RESULT ── */
+.result-section { display: none; }
+
+.fecha-banner {
+  border-radius: var(--r);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+.fecha-banner::before {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.07);
+}
+
+.fecha-banner.urgent { background: linear-gradient(135deg, var(--rust) 0%, #C44A2A 100%); color: white; }
+.fecha-banner.soon   { background: linear-gradient(135deg, var(--gold) 0%, #C09040 100%); color: white; }
+.fecha-banner.ok     { background: linear-gradient(135deg, var(--sage) 0%, #5A9A6A 100%); color: white; }
+
+.fecha-label { font-size: 12px; opacity: .8; text-transform: uppercase; letter-spacing: .12em; font-weight: 600; margin-bottom: 6px; }
+.fecha-valor { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 400; }
+.fecha-hora { font-size: 16px; opacity: .8; margin-top: 4px; }
+.dias-num { font-family: 'Playfair Display', serif; font-size: 56px; line-height: 1; font-weight: 700; }
+.dias-text { font-size: 14px; opacity: .8; letter-spacing: .05em; }
+
+.result-address { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 400; margin-bottom: 8px; line-height: 1.3; }
+.result-ref { font-size: 16px; color: var(--stone); margin-bottom: 1.5rem; font-weight: 300; }
+
+.act-banner {
+  background: var(--sky-l);
+  border: 1px solid rgba(45,95,138,.2);
+  border-left: 3px solid var(--sky);
+  border-radius: var(--r-sm);
+  padding: 14px 18px;
+  font-size: 15px;
+  color: var(--sky);
+  margin-bottom: 1.5rem;
+  display: none;
+}
+
+/* ── METRICS ── */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 1.5rem;
+}
+
+.metric {
+  background: var(--clay-xl);
+  border: 1.5px solid var(--clay-l);
+  border-radius: var(--r);
+  padding: 18px;
+  transition: transform .15s;
+}
+.metric:hover { transform: translateY(-2px); }
+.metric.m-green  { background: #F0FDF4; border-color: #86EFAC; }
+.metric.m-green .metric-label { color: #166534; }
+.metric.m-green .metric-value { color: #15803D; }
+.metric.m-red    { background: #FEF2F2; border-color: #FCA5A5; }
+.metric.m-red .metric-label  { color: #991B1B; }
+.metric.m-red .metric-value  { color: #DC2626; }
+.metric.m-blue   { background: var(--sky-l); border-color: #93C5FD; }
+.metric.m-blue .metric-label { color: var(--sky); }
+.metric.m-blue .metric-value { color: var(--sky); }
+.metric.m-amber  { background: var(--gold-l); border-color: #FCD34D; }
+.metric.m-amber .metric-label{ color: var(--gold); }
+.metric.m-amber .metric-value{ color: var(--gold); }
+
+.metric-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--stone); margin-bottom: 8px; }
+.metric-value { font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.metric-note { font-size: 13px; color: var(--stone-l); margin-top: 4px; }
+
+/* ── PUJA BANNER ── */
+.puja-banner {
+  background: var(--ink);
+  border-radius: var(--r);
+  padding: 2rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.puja-banner::after {
+  content: '🏠';
+  position: absolute;
+  right: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 100px;
+  opacity: .04;
+}
+
+.puja-banner .plabel { font-size: 13px; opacity: .6; text-transform: uppercase; letter-spacing: .12em; font-weight: 600; margin-bottom: 8px; }
+.puja-banner .pamount { font-family: 'Playfair Display', serif; font-size: 42px; color: var(--sand); line-height: 1; }
+.puja-banner .pnote { font-size: 14px; opacity: .5; margin-top: 8px; }
+.puja-banner .benef-val { font-family: 'Playfair Display', serif; font-size: 32px; color: #7FD89A; line-height: 1; }
+
+/* ── SECTION BLOCKS ── */
+.sblock { margin-bottom: 1.5rem; }
+.sblock h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--stone-l); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+.sblock h3::before { content: ''; display: block; width: 4px; height: 18px; background: var(--clay); border-radius: 2px; }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--rust-l);
+  color: var(--rust);
+  font-size: 15px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin: 4px;
+  font-weight: 500;
+  border: 1px solid rgba(155,58,26,.15);
+  line-height: 1.5;
+}
+
+.tag-green {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--sage-l);
+  color: var(--sage);
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  margin: 3px;
+  font-weight: 500;
+  border: 1px solid rgba(74,124,89,.2);
+  line-height: 1.5;
+}
+
+.analysis-text { font-size: 16px; line-height: 1.85; color: var(--stone); font-weight: 300; }
+
+/* ── CHAT ── */
+.chat-wrap {
+  border: 1.5px solid var(--sand);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.chat-suggestions {
+  padding: 14px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: var(--clay-xl);
+  border-bottom: 1px solid var(--sand);
+}
+
+.chat-sug {
+  font-size: 14px;
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1.5px solid var(--clay-l);
+  background: var(--white);
+  color: var(--clay-d);
+  cursor: pointer;
+  transition: all .15s;
+  font-weight: 500;
+}
+.chat-sug:hover { background: var(--clay); color: white; border-color: var(--clay); }
+
+.chat-msgs {
+  padding: 1.25rem;
+  min-height: 60px;
+  max-height: 420px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--cream);
+}
+
+.cmsg {
+  max-width: 85%;
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+.cmsg.user { background: var(--clay); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+.cmsg.ai { background: var(--white); border: 1px solid var(--sand); align-self: flex-start; border-bottom-left-radius: 4px; color: var(--ink); box-shadow: var(--shadow); }
+.cmsg.thinking { color: var(--stone-l); font-style: italic; }
+
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--sand);
+  background: var(--white);
+}
+.chat-input-row input { margin-bottom: 0; flex: 1; }
+
+/* ── LIST / CARDS ── */
+.prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 1rem; }
+
+.prop-card {
+  background: var(--white);
+  border: 1.5px solid var(--sand);
+  border-radius: var(--r-lg);
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all .2s;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.prop-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--clay);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .2s;
+}
+
+.prop-card:hover { border-color: var(--clay); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.prop-card:hover::before { transform: scaleX(1); }
+
+.pca { font-weight: 600; font-size: 17px; line-height: 1.4; margin-bottom: 4px; }
+.pcm { font-size: 14px; color: var(--stone); margin-bottom: .75rem; font-weight: 300; }
+
+.pc-metrics { display: flex; gap: .75rem; padding-top: .75rem; border-top: 1px solid var(--sand); }
+.pcmet { flex: 1; }
+.pcmet .l { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--stone-l); font-weight: 600; }
+.pcmet .v { font-size: 16px; font-weight: 600; }
+
+.badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-danger { background: var(--rust-l); color: var(--rust); }
+.badge-warning { background: var(--gold-l); color: var(--gold); }
+.badge-success { background: var(--sage-l); color: var(--sage); }
+
+.empty-state { text-align: center; padding: 5rem 1rem; }
+.empty-house { font-size: 56px; margin-bottom: 1rem; opacity: .25; }
+.empty-state h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; color: var(--ink); margin-bottom: .5rem; }
+.empty-state p { color: var(--stone); font-size: 14px; font-weight: 300; }
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--sand);
+  border-radius: var(--r-sm);
+  padding: 3px;
+  width: fit-content;
+  margin-bottom: 1.5rem;
+}
+.tab {
+  padding: 7px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--stone);
+  font-family: 'Outfit', sans-serif;
+  transition: all .15s;
+  font-weight: 400;
+}
+.tab.active { background: var(--white); color: var(--ink); font-weight: 600; box-shadow: 0 1px 4px rgba(30,23,18,.1); }
+
+/* ── SEARCH ── */
+.search-row { display: flex; gap: 8px; margin-bottom: 1.5rem; }
+.search-row input { margin-bottom: 0; flex: 1; }
+
+/* ── CALENDAR ── */
+.cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+.cal-nav-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; }
+.cal-grid-wrap { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 3px; }
+.cal-hd { text-align: center; font-size: 13px; font-weight: 600; color: var(--stone-l); padding: 8px 0; text-transform: uppercase; letter-spacing: .08em; }
+.cal-day { min-height: 110px; border: 1px solid var(--sand); border-radius: var(--r-sm); padding: 5px; background: var(--white); cursor: default; transition: background .15s; }
+.cal-day.other { background: var(--clay-xl); opacity: .5; }
+.cal-day.today { border-color: var(--clay); border-width: 2px; }
+.cal-dn { font-size: 14px; font-weight: 600; color: var(--stone); margin-bottom: 3px; }
+.cal-day.today .cal-dn { color: var(--clay); }
+.cal-ev { font-size: 12px; background: var(--clay); color: white; border-radius: 4px; padding: 3px 6px; margin-bottom: 2px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.5; font-weight: 500; transition: background .1s; display: block; }
+.cal-ev:hover { background: var(--clay-d); }
+.cal-ev-more { font-size: 10px; color: var(--stone); font-weight: 600; padding: 1px 3px; cursor: pointer; display: block; }
+
+/* ── MODAL ── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(30,23,18,.55); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(2px); }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--white); border-radius: var(--r-lg); padding: 2.5rem; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 20px 60px rgba(30,23,18,.2); }
+.modal-close { position: absolute; top: 1rem; right: 1rem; background: var(--sand); border: none; font-size: 18px; cursor: pointer; color: var(--stone); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: all .15s; }
+.modal-close:hover { background: var(--clay-l); color: var(--clay-d); }
+
+.notes-area { width: 100%; min-height: 80px; resize: vertical; margin-bottom: 0; }
+
+.info-banner { border-radius: var(--r-sm); padding: 11px 14px; font-size: 13px; margin-bottom: 1.25rem; }
+.info-banner.amber { background: var(--gold-l); color: var(--gold); border: 1px solid rgba(160,120,48,.2); border-left: 3px solid var(--gold); }
+
+/* ── CONFIG CARDS ── */
+.cfg-card { background: var(--clay-xl); border: 1px solid var(--clay-l); border-radius: var(--r); padding: 1.5rem; margin-bottom: 1rem; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--sand); margin: 1.25rem 0; }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--ink); color: white; padding: 12px 24px; border-radius: 30px;
+  font-size: 15px; font-weight: 500; opacity: 0; transition: all .25s; z-index: 9999;
+  pointer-events: none; white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── DECISION ── */
+.btn-decision {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: var(--r-sm);
+  font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500;
+  cursor: pointer; border: 2px solid var(--sand); background: var(--white);
+  color: var(--stone); transition: all .15s;
+}
+.btn-decision:hover { border-color: var(--stone); color: var(--ink); }
+.btn-decision.active-si  { background: #F0FDF4; border-color: #4ADE80; color: #166534; font-weight: 600; }
+.btn-decision.active-ver { background: var(--gold-l); border-color: var(--gold); color: var(--gold); font-weight: 600; }
+.btn-decision.active-no  { background: #FEF2F2; border-color: #F87171; color: #991B1B; font-weight: 600; }
+.btn-decision.active-null{ background: var(--sand); border-color: var(--stone); color: var(--stone); font-weight: 600; }
+
+.razon-check {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 13px; color: var(--stone); cursor: pointer;
+  padding: 6px 12px; border-radius: var(--r-sm);
+  border: 1px solid var(--sand); background: var(--cream);
+  transition: all .15s;
+}
+.razon-check:hover { background: var(--rust-l); border-color: #FCA5A5; color: var(--rust); }
+.razon-check input { cursor: pointer; accent-color: var(--rust); }
+
+@media(max-width:640px){
+  .main{padding:1rem 1rem 3rem}
+  header{padding:0 1rem}
+  .hero-strip{padding:2rem 1rem 2rem}
+  .hero-title{font-size:26px}
+  .metrics{grid-template-columns:1fr 1fr}
+  .puja-banner{flex-direction:column}
+  .dias-num{font-size:32px}
+  nav button{padding:6px 9px;font-size:12px}
+  .logo-text{font-size:20px}
+  .cal-day{min-height:52px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <div class="logo-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M3 10.5L12 3L21 10.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V10.5Z" fill="white"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-text">Subastas<em>APP</em></div>
+      <div style="font-family:'Outfit',sans-serif;font-size:17px;color:var(--sand);font-weight:500;letter-spacing:.06em;margin-top:1px">QUIERO VIGAS</div>
+    </div>
+  </div>
+  <nav>
+    <button class="active" onclick="resetForm();show('nueva')">+ Nuevo análisis</button>
+    <button onclick="show('lista')">Viviendas</button>
+    <button onclick="show('calendario')">Calendario</button>
+    <button onclick="sincronizarManual()" style="border:1.5px solid rgba(255,255,255,.2)" title="Sincronizar con los otros usuarios">☁ Sync</button>
+    <button onclick="show('config')">Config</button>
+  </nav>
+</header>
+
+<div class="main">
+
+<!-- ══ NUEVA ══ -->
+<div id="nueva" class="section active">
+
+  <div class="hero-strip" style="margin:-2rem -1.5rem 2.5rem;padding-left:1.5rem;padding-right:1.5rem">
+    <div class="hero-content">
+      <div class="hero-title">Analiza tu próxima <em>subasta</em></div>
+      <div class="hero-desc">Sube los PDFs, pega el enlace y la IA extrae todo lo que necesitas saber.</div>
+    </div>
+  </div>
+
+  <div id="api-warning" class="info-banner amber" style="display:none">
+    ⚠️ Configura tu API Key en <strong>Config</strong> antes de analizar.
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🔗</div><div class="card-title">Enlace de la subasta</div></div>
+    <label>URL del portal (BOE, banco, etc.)</label>
+    <input type="url" id="url-input" placeholder="https://subastas.boe.es/reg/detalleSubasta.php?idSub=..."/>
+    <p style="font-size:12px;color:var(--stone-l);font-weight:300;margin-top:-0.5rem">La IA analizará los documentos y estimará el precio de mercado actual (2026) automáticamente.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📎</div><div class="card-title">Documentos PDF</div></div>
+    <label for="file-input" class="upload-zone" id="drop-zone" style="display:block;cursor:pointer">
+      <svg class="upload-house" viewBox="0 0 48 48" fill="none">
+        <path d="M6 21L24 6L42 21V42C42 43.1 41.1 44 40 44H30V32H18V44H8C6.9 44 6 43.1 6 42V21Z" stroke="#B85C2C" stroke-width="2.5" stroke-linejoin="round"/>
+        <rect x="20" y="32" width="8" height="12" rx="1" stroke="#B85C2C" stroke-width="2"/>
+      </svg>
+      <div class="upload-text"><strong>Haz clic o arrastra</strong> los PDFs aquí<small>Edicto · Tasación · Cargas registrales · Nota simple</small></div>
+    </label>
+    <input type="file" id="file-input" multiple accept=".pdf" style="display:none" onchange="handleFiles(this.files)"/>
+    <ul class="file-list" id="file-list"></ul>
+  </div>
+
+  <div id="btn-area">
+    <button class="btn btn-primary btn-block" onclick="analizar()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="white" stroke-width="2"/><path d="M16.5 16.5L21 21" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      Analizar con IA
+    </button>
+  </div>
+
+  <div class="analyzing" id="analyzing">
+    <div class="spinner-wrap"><div class="spinner"></div><div class="spinner-house">🏠</div></div>
+    <div class="analyzing-text" id="analyzing-text">Leyendo documentos...</div>
+    <div class="analyzing-sub">La IA está analizando todos los datos</div>
+  </div>
+
+  <div class="result-section" id="result-section">
+    <div class="card">
+
+      <div id="r-fecha-banner" class="fecha-banner ok" style="display:none">
+        <div>
+          <div class="fecha-label">Fin de subasta</div>
+          <div class="fecha-valor" id="r-fecha"></div>
+          <div class="fecha-hora" id="r-hora">a las 18:00h</div>
+        </div>
+        <div style="text-align:right">
+          <div class="dias-num" id="r-dias">—</div>
+          <div class="dias-text">días restantes</div>
+        </div>
+      </div>
+
+      <div class="result-address" id="r-address"></div>
+      <div class="result-ref" id="r-ref"></div>
+      <div id="r-distribucion" style="display:none;font-size:13px;color:var(--stone);margin-top:4px;font-weight:400"></div>
+      <div id="r-estado-finca" style="display:none;font-size:13px;color:var(--stone);margin-top:3px;margin-bottom:6px;font-weight:400"></div>
+      <div id="r-ref-exp" style="display:none;font-size:12px;color:var(--stone-l);margin-top:3px;margin-bottom:6px;font-weight:300"></div>
+      <div id="r-ref-catastral" style="display:none;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap;margin-top:8px">
+        <span style="font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--stone)">Ref. catastral:</span>
+        <span id="r-ref-catastral-num" style="font-size:15px;font-weight:600;color:var(--ink);font-family:monospace;background:var(--clay-xl);padding:5px 12px;border-radius:6px;border:1px solid var(--clay-l)"></span>
+        <button onclick="copiarRefCatastral()" title="Copiar referencia" style="background:var(--clay-xl);border:1px solid var(--clay-l);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:16px;line-height:1;color:var(--clay-d)">📋</button>
+        <a id="r-catastro-link" href="#" target="_blank" style="font-size:14px;font-weight:600;color:var(--sky);text-decoration:none;background:var(--sky-l);padding:5px 14px;border-radius:20px;border:1px solid #93C5FD">🏛 Buscar en catastro (pega el nº) →</a>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem">
+        <a id="r-maps-btn" href="#" target="_blank" style="display:none;align-items:center;gap:6px;background:var(--sky-l);color:var(--sky);font-size:13px;font-weight:600;text-decoration:none;padding:7px 14px;border-radius:20px;border:1px solid #93C5FD">📍 Ver en Google Maps</a>
+        <a id="r-idealista-btn" href="#" target="_blank" style="display:none;align-items:center;gap:6px;background:#FFF3E0;color:#E65100;font-size:13px;font-weight:600;text-decoration:none;padding:7px 14px;border-radius:20px;border:1px solid #FFCC80">🏠 Buscar en Idealista</a>
+        <a id="r-fotocasa-btn" href="#" target="_blank" style="display:none;align-items:center;gap:6px;background:#E8F5E9;color:#2E7D32;font-size:13px;font-weight:600;text-decoration:none;padding:7px 14px;border-radius:20px;border:1px solid #A5D6A7">🔍 Buscar en Fotocasa</a>
+      </div>
+      <div id="r-act-banner" class="act-banner"></div>
+
+      <div class="metrics" id="r-metrics"></div>
+
+      <div id="r-posesoria" style="display:none;align-items:flex-start;gap:14px;border-radius:var(--r);padding:14px 18px;margin-bottom:1.25rem">
+        <div id="r-posesoria-icon" style="font-size:24px;flex-shrink:0;line-height:1.3"></div>
+        <div>
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;opacity:.8">Situación posesoria</div>
+          <div id="r-posesoria-txt" style="font-size:14px;line-height:1.65;font-weight:400"></div>
+        </div>
+      </div>
+
+      <div class="puja-banner">
+        <div>
+          <div class="plabel">Franja de puja recomendada</div>
+          <div class="pamount" id="r-puja" style="font-size:26px;letter-spacing:-0.5px">—</div>
+          <div class="pnote" id="r-puja-note">—</div>
+        </div>
+        <div style="text-align:right">
+          <div class="plabel">Beneficio neto estimado</div>
+          <div class="benef-val" id="r-beneficio">—</div>
+          <div id="r-beneficio-detalle" style="font-size:11px;opacity:.55;margin-top:4px;line-height:1.5"></div>
+        </div>
+      </div>
+
+      <div id="r-alertas-wrap" style="display:none" class="sblock">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
+          <div style="width:4px;height:28px;background:var(--rust);border-radius:2px;flex-shrink:0"></div>
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:400;color:var(--rust)">Alertas</div>
+        </div>
+        <div id="r-alertas"></div>
+      </div>
+
+      <div id="r-positivos-wrap" style="display:none" class="sblock">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
+          <div style="width:4px;height:28px;background:var(--sage);border-radius:2px;flex-shrink:0"></div>
+          <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:400;color:var(--sage)">Puntos positivos</div>
+        </div>
+        <div id="r-positivos"></div>
+      </div>
+
+      <div class="sblock">
+        <h3>Resumen ejecutivo</h3>
+        <p id="r-resumen" class="analysis-text"></p>
+      </div>
+
+      <div class="sblock">
+        <h3>Análisis detallado</h3>
+        <p id="r-analisis" class="analysis-text"></p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="sblock">
+        <h3>Preguntar al analista</h3>
+        <div class="chat-wrap">
+          <div class="chat-suggestions">
+            <span class="chat-sug" onclick="sugerir(this)">¿Dónde ves que es vivienda habitual?</span>
+            <span class="chat-sug" onclick="sugerir(this)">¿Cómo has estimado el precio de mercado?</span>
+            <span class="chat-sug" onclick="sugerir(this)">¿Qué riesgos principales tiene?</span>
+            <span class="chat-sug" onclick="sugerir(this)">¿Es buena oportunidad?</span>
+            <span class="chat-sug" onclick="sugerir(this)">¿Qué pasa si está ocupada?</span>
+          </div>
+          <div class="chat-msgs" id="chat-msgs"></div>
+          <div class="chat-input-row">
+            <input type="text" id="chat-in" placeholder="Pregunta lo que quieras sobre esta subasta..." onkeydown="if(event.key==='Enter')chat()"/>
+            <button class="btn btn-primary" onclick="chat()">Enviar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- DECISIÓN ¿PUJAMOS? -->
+      <div class="sblock" id="r-decision-wrap">
+        <h3>¿Pujamos?</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
+          <button class="btn-decision" id="dec-si" onclick="setDecision('si')">
+            <span style="font-size:18px">✅</span> Sí, pujamos
+          </button>
+          <button class="btn-decision" id="dec-ver" onclick="setDecision('ver')">
+            <span style="font-size:18px">👁</span> A ver cómo evoluciona
+          </button>
+          <button class="btn-decision" id="dec-no" onclick="setDecision('no')">
+            <span style="font-size:18px">❌</span> No pujamos
+          </button>
+          <button class="btn-decision" id="dec-null" onclick="setDecision(null)">
+            <span style="font-size:18px">↩</span> Sin decidir aún
+          </button>
+        </div>
+        <div id="r-razones-no" style="display:none;flex-wrap:wrap;gap:8px;margin-bottom:.75rem">
+          <div style="font-size:12px;font-weight:600;color:var(--stone);text-transform:uppercase;letter-spacing:.08em;width:100%;margin-bottom:4px">¿Por qué no?</div>
+          <label class="razon-check"><input type="checkbox" value="vivienda_habitual"> Es vivienda habitual del ejecutado</label>
+          <label class="razon-check"><input type="checkbox" value="puja_alta"> La puja ya va demasiado alta</label>
+          <label class="razon-check"><input type="checkbox" value="cargas"> Cargas o deudas pendientes elevadas</label>
+          <label class="razon-check"><input type="checkbox" value="estado"> Estado de la vivienda desconocido o malo</label>
+          <label class="razon-check"><input type="checkbox" value="lanzamiento"> Necesita lanzamiento/desahucio</label>
+          <label class="razon-check"><input type="checkbox" value="otros"> Otros motivos</label>
+        </div>
+        <div id="r-decision-display" style="display:none"></div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:1.5rem;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="guardar()">💾 Guardar en lista</button>
+        <button class="btn btn-secondary" onclick="anadirCalendario()" id="btn-cal" style="display:none">📅 Añadir al calendario</button>
+        <button class="btn btn-secondary" onclick="resetForm()">+ Nuevo análisis</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ LISTA ══ -->
+<div id="lista" class="section">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-bottom:1.75rem">
+    <div>
+      <div class="page-title">Viviendas</div>
+      <div class="page-sub">Exporta e importa el JSON para sincronizar entre los 3 usuarios.</div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="filtrar('todas',this)">Todas</button>
+      <button class="tab" onclick="filtrar('activas',this)">Activas</button>
+      <button class="tab" onclick="filtrar('archivadas',this)">Archivadas</button>
+    </div>
+  </div>
+  <div class="search-row">
+    <input type="text" id="search-in" placeholder="Buscar dirección o referencia..." oninput="renderLista()" style="margin-bottom:0"/>
+  </div>
+  <div id="lista-container"></div>
+</div>
+
+<!-- ══ CALENDARIO ══ -->
+<div id="calendario" class="section">
+  <div class="page-header">
+    <div class="page-title">Calendario de subastas</div>
+    <div class="page-sub">Todas las fechas de cierre — siempre a las 18:00h.</div>
+  </div>
+  <div class="card">
+    <div class="cal-nav">
+      <button class="btn btn-secondary" onclick="calMover(-1)">← Anterior</button>
+      <div class="cal-nav-title" id="cal-titulo"></div>
+      <button class="btn btn-secondary" onclick="calMover(1)">Siguiente →</button>
+    </div>
+    <div class="cal-grid-wrap" id="cal-hdr"></div>
+    <div class="cal-grid-wrap" id="cal-body"></div>
+  </div>
+  <div id="cal-lista" class="card" style="display:none">
+    <div class="card-header"><div class="card-icon">📅</div><div class="card-title" id="cal-lista-tit"></div></div>
+    <div id="cal-lista-items"></div>
+  </div>
+</div>
+
+<!-- ══ CONFIG ══ -->
+<div id="config" class="section">
+  <div class="page-header">
+    <div class="page-title">Configuración</div>
+    <div class="page-sub">Ajustes de la aplicación.</div>
+  </div>
+
+  <div class="cfg-card">
+    <div class="card-header"><div class="card-icon">🔑</div><div class="card-title">API Key de Anthropic</div></div>
+    <p style="font-size:13px;color:var(--stone);margin-bottom:1rem;font-weight:300">Consíguela en <a href="https://console.anthropic.com" target="_blank" style="color:var(--clay);font-weight:500">console.anthropic.com</a>. Se guarda solo en tu navegador — nunca sale de tu dispositivo.</p>
+    <label>API Key</label>
+    <input type="text" id="api-key-in" placeholder="sk-ant-..."/>
+    <button class="btn btn-primary" onclick="saveKey()">Guardar clave</button>
+    <p id="key-status" style="font-size:13px;margin-top:.75rem;color:var(--sage);font-weight:500"></p>
+  </div>
+
+  <div class="cfg-card">
+    <div class="card-header"><div class="card-icon">⚙️</div><div class="card-title">Parámetros por defecto</div></div>
+    <label>Margen mínimo de beneficio (€)</label>
+    <input type="number" id="cfg-margen" value="35000"/>
+    <button class="btn btn-secondary" onclick="saveCfg()">Guardar</button>
+  </div>
+
+  <div class="cfg-card">
+    <div class="card-header"><div class="card-icon">☁️</div><div class="card-title">Sincronización en tiempo real</div></div>
+    <p style="font-size:15px;color:var(--sage);font-weight:600;margin-bottom:.5rem">✅ Conectado a la nube — los 3 usuarios ven los mismos datos</p>
+    <p style="font-size:13px;color:var(--stone);margin-bottom:1rem;font-weight:300">Los datos se sincronizan automáticamente cada 30 segundos. También puedes forzar la sincronización ahora.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="sincronizarManual()">☁ Sincronizar ahora</button>
+      <button class="btn btn-secondary" onclick="exportar()">⬇ Exportar backup</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('import-in').click()">⬆ Importar backup</button>
+    </div>
+    <input type="file" id="import-in" accept=".json" style="display:none" onchange="importar(this)"/>
+  </div>
+</div>
+
+</div><!-- /.main -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrar()">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let archivos=[], resultado=null, chatLog=[], props=[], filtroActual='todas', calMes=new Date().getMonth(), calAnio=new Date().getFullYear();
+let _toastTimer=null;
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');if(_toastTimer)clearTimeout(_toastTimer);_toastTimer=setTimeout(()=>el.classList.remove('show'),2200);}
+
+function init(){
+  const s=localStorage.getItem('subastapp_data'); if(s) props=JSON.parse(s);
+  const k=localStorage.getItem('anthropic_key')||'';
+  if(k) document.getElementById('api-key-in').value=k;
+  document.getElementById('api-warning').style.display=k?'none':'block';
+  setupDrop(); renderLista(); renderCal();
+  // Sincronizar con la nube al arrancar
+  sincronizarDesdeNube().then(huboNube=>{
+    if(huboNube){ renderLista(); renderCal(); toast('☁ Sincronizado con la nube'); }
+  });
+  // Sincronizar cada 30 segundos para ver cambios de los otros usuarios
+  setInterval(()=>{
+    sincronizarDesdeNube().then(ok=>{ if(ok){ renderLista(); renderCal(); } });
+  }, 30000);
+}
+
+function show(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  ['nueva','lista','calendario','','config'].forEach((x,i)=>{if(x===id)document.querySelectorAll('nav button')[i].classList.add('active');});
+  if(id==='lista') renderLista();
+  if(id==='calendario') renderCal();
+}
+
+function saveKey(){
+  const k=document.getElementById('api-key-in').value.trim();
+  localStorage.setItem('anthropic_key',k);
+  document.getElementById('key-status').textContent=k?'✓ API Key guardada correctamente.':'Clave eliminada.';
+  document.getElementById('api-warning').style.display=k?'none':'block';
+}
+
+function saveCfg(){
+  const m=document.getElementById('cfg-margen').value;
+  localStorage.setItem('cfg_margen',m);
+  toast('✓ Config guardada');
+}
+
+// ── SUPABASE CONFIG ──
+const SB_URL = 'https://qlxyjhkoyecgarsrlqoi.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFseHlqaGtveWVjZ2Fyc3JscW9pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxODk4NzEsImV4cCI6MjA4OTc2NTg3MX0.nzz3eSWahltX_VQC7IJowkA1UVyXBcUUs115Nic0hQQ';
+const SB_HEADERS = {
+  'Content-Type':'application/json',
+  'apikey': SB_KEY,
+  'Authorization': 'Bearer ' + SB_KEY,
+  'Prefer': 'return=minimal'
+};
+
+async function sbGuardar(prop){
+  try{
+    const r = await fetch(`${SB_URL}/rest/v1/propiedades`, {
+      method:'POST',
+      headers:{...SB_HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},
+      body:JSON.stringify({id:String(prop._id), datos:prop, actualizado_en:new Date().toISOString()})
+    });
+    if(!r.ok){ const t=await r.text(); console.warn('Supabase guardar error:',r.status,t); }
+  }catch(e){ console.warn('Supabase offline',e); }
+}
+
+async function sbEliminar(id){
+  try{
+    await fetch(`${SB_URL}/rest/v1/propiedades?id=eq.${id}`, {method:'DELETE', headers:SB_HEADERS});
+  }catch(e){ console.warn('Supabase offline',e); }
+}
+
+async function sbCargarTodo(){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/propiedades?select=datos&order=actualizado_en.desc`, {
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
+    });
+    if(!r.ok){ console.warn('Supabase cargar error:',r.status, await r.text()); return null; }
+    const rows=await r.json();
+    return rows.map(r=>r.datos);
+  }catch(e){ console.warn('Supabase offline',e); return null; }
+}
+
+function saveData(){
+  localStorage.setItem('subastapp_data',JSON.stringify(props));
+  // Sincronizar cada propiedad modificada con Supabase
+  props.forEach(p=>sbGuardar(p));
+}
+
+async function sincronizarDesdeNube(){
+  const nube = await sbCargarTodo();
+  if(nube && nube.length>0){
+    // Mezclar: la nube manda, pero conservar locales si son más recientes
+    const local = props;
+    const mapaLocal = {};
+    local.forEach(p=>mapaLocal[p._id]=p);
+    const mapaNube = {};
+    nube.forEach(p=>mapaNube[p._id]=p);
+    // Unir ambos mapas — nube tiene prioridad si más reciente
+    const unidos = {};
+    [...local,...nube].forEach(p=>{
+      if(!unidos[p._id]||new Date(p._ts||0)<new Date((unidos[p._id]._ts)||0)){
+        // keep existing
+      } else {
+        unidos[p._id]=p;
+      }
+    });
+    // Reconstruir con orden de la nube
+    props = nube.map(p=>unidos[p._id]||p);
+    // Añadir locales que no están en nube aún
+    local.forEach(p=>{ if(!mapaNube[p._id]) props.unshift(p); });
+    localStorage.setItem('subastapp_data',JSON.stringify(props));
+    return true;
+  }
+  return false;
+}
+
+function setupDrop(){
+  // Block browser from opening dragged files anywhere on the page
+  window.addEventListener('dragover', e=>{ e.preventDefault(); e.stopPropagation(); }, false);
+  window.addEventListener('drop',     e=>{ e.preventDefault(); e.stopPropagation(); }, false);
+
+  const z = document.getElementById('drop-zone');
+
+  // Drag visual feedback
+  z.addEventListener('dragenter', e=>{ e.preventDefault(); e.stopPropagation(); z.classList.add('dragging'); });
+  z.addEventListener('dragover',  e=>{ e.preventDefault(); e.stopPropagation(); z.classList.add('dragging'); return false; });
+  z.addEventListener('dragleave', e=>{ e.stopPropagation(); z.classList.remove('dragging'); });
+
+  // Drop files — must preventDefault to stop label's native click from also firing
+  z.addEventListener('drop', e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    z.classList.remove('dragging');
+    if(e.dataTransfer && e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
+  });
+}
+
+function handleFiles(files){
+  for(const f of files) if(f.type==='application/pdf'&&!archivos.find(a=>a.name===f.name)) archivos.push(f);
+  renderFiles();
+}
+
+function renderFiles(){
+  document.getElementById('file-list').innerHTML=archivos.map((f,i)=>
+    `<li class="file-item">📄 ${f.name} <span style="color:var(--stone-l);font-size:11px">${(f.size/1024).toFixed(0)}KB</span><button class="rm" onclick="removeFile(${i})">×</button></li>`
+  ).join('');
+}
+
+function removeFile(i){ archivos.splice(i,1); renderFiles(); }
+function abrirBuscador(p){ window.open(p==='idealista'?'https://www.idealista.com/venta-viviendas/':'https://www.fotocasa.es/es/comprar/viviendas/espana/todas-las-zonas/l','_blank'); }
+
+async function toB64(file){
+  return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});
+}
+
+async function analizar(){
+  const apiKey=localStorage.getItem('anthropic_key')||'';
+  if(!apiKey){alert('Configura tu API Key en Config.');show('config');return;}
+  const url=document.getElementById('url-input').value.trim();
+  const margen=35000;
+  const notas=document.getElementById('notas-previas').value.trim();
+  if(!url&&archivos.length===0){alert('Añade al menos un PDF o un enlace.');return;}
+
+  document.getElementById('btn-area').style.display='none';
+  document.getElementById('analyzing').style.display='block';
+  document.getElementById('result-section').style.display='none';
+  chatLog=[]; document.getElementById('chat-msgs').innerHTML='';
+
+  const txts=['Leyendo documentos...','Extrayendo datos clave...','Estimando precio de mercado 2026...','Calculando franja de puja óptima...','Redactando informe...'];
+  let ti=0; const iv=setInterval(()=>{ document.getElementById('analyzing-text').textContent=txts[Math.min(ti++,txts.length-1)]; },2500);
+
+  try{
+    const content=[];
+    for(const f of archivos){const b=await toB64(f);content.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:b}});}
+
+    // Guardar nombres de archivos para mostrarlos al reanalizar
+    const pdfNombres = archivos.map(f=>f.name);
+
+    const prompt=`Eres un experto en subastas inmobiliarias judiciales y bancarias en España. Año actual: 2026.
+${url?`URL subasta: ${url}`:''}
+El usuario NO aporta precio de mercado — estímalo tú con criterio de mercado español 2026.
+Margen mínimo deseado: 30.000–40.000 € (usa 35.000 € como referencia central).
+${notas?`Notas: ${notas}`:''}
+${archivos.length>0?`Se adjuntan ${archivos.length} PDF(s).`:''}
+
+INSTRUCCIONES:
+1. TASACIÓN: Si tiene más de 2 años, aplica factor de actualización al precio de mercado según mercado español 2026.
+2. METROS ÚTILES: Estima a partir de construidos y año construcción (1960-75→0.82, 1976-90→0.85, 1991-2005→0.87, 2006+→0.90).
+3. PUJA Y BENEFICIO NETO — LA OPERACIÓN LA REALIZA UNA SOCIEDAD LIMITADA (SL) ESPAÑOLA:
+   - puja_maxima = precio_mercado_estimado - 35.000 € (techo para mantener margen mínimo neto).
+   - puja_minima = puja_maxima × 0.90 (suelo cómodo, 10% más de margen).
+   - Ambas redondeadas a miles.
+   - GASTOS DE COMPRA (sobre puja_maxima): ITP ~10% CV (2ª transmisión; si obra nueva sería IVA 10%+AJD 1.5%), Notaría ~0.5%, Registro ~0.3%, Gestoría ~0.3%. Total gastos_compra ≈ 11.1% × puja_maxima.
+   - GASTOS DE VENTA (sobre precio_mercado_estimado): Inmobiliaria 3%+IVA21%=3.63%, Notaría vendedor ~0.2%, Plusvalía municipal ~1.5% estimada.
+   - IMPUESTO SOBRE SOCIEDADES (IS): NO es IRPF. La SL tributa al 23% si base_imponible ≤ 300.000€ (pyme), 25% sobre el exceso. Base = precio_venta - coste_adquisicion(puja+gastos_compra) - gastos_venta. Calcula el IS correctamente sobre esa base. Guarda el resultado en irpf_estimado (campo reutilizado para IS).
+   - beneficio_neto_minimo = precio_mercado_estimado - puja_maxima - gastos_compra - gastos_venta - irpf_estimado
+   - beneficio_neto_maximo = precio_mercado_estimado - puja_minima - gastos_compra - gastos_venta - is_sobre_puja_minima (recalcula IS con mayor beneficio)
+   - beneficio_estimado = beneficio_neto_minimo
+   - EN gastos_venta_detalle indica: "Beneficio neto en SL antes de dividendos. Distribución de dividendos tributa 19% adicional en el socio."
+   - valor_minimo_puja = valor mínimo de adjudicación (acreedor puede pedir adjudicación directa), NO mínimo para participar.
+5. FECHA FIN: Busca la fecha de cierre de la subasta en todos los documentos. En el BOE suele aparecer como "Fecha de conclusión" o en el edicto judicial. Devuélvela SIEMPRE en formato DD/MM/AAAA. Si no aparece en ningún documento, devuelve null (no el placeholder).
+6. En alertas, cita siempre el documento o dato concreto. Máximo 8 alertas.
+7. analisis: máximo 200 palabras. resumen_ejecutivo: máximo 2 frases.
+8. IMPORTANTE: El JSON debe estar completo y bien cerrado. No lo trunces.
+
+Responde SOLO con JSON válido, sin markdown:
+{"direccion":"","referencia":"","referencia_catastral":"","tipo":"","superficie_construida":0,"superficie_util":0,"metros_utiles_reales":false,"distribucion":"","anio_construccion":null,"planta":null,"orientacion":null,"ascensor":null,"estado_finca":"","fecha_fin":"DD/MM/AAAA","hora_fin":"HH:MM","dias_restantes":null,"tasacion_original":0,"anio_tasacion":null,"factor_actualizacion":1,"precio_mercado_estimado":0,"precio_mercado_fuente":"","valor_minimo_puja":0,"deposito_requerido":0,"cargas":0,"descripcion_cargas":"","situacion_posesoria":"","vivienda_habitual":false,"necesita_lanzamiento":false,"es_vpo":false,"vpo_caducado":false,"vpo_info":"","puja_minima":0,"puja_maxima":0,"puja_recomendada":0,"gastos_compra":0,"gastos_compra_detalle":"","gastos_venta":0,"gastos_venta_detalle":"","irpf_estimado":0,"beneficio_neto_minimo":0,"beneficio_neto_maximo":0,"beneficio_estimado":0,"porcentaje_tasacion":0,"alertas":[],"puntos_positivos":[],"analisis":"","resumen_ejecutivo":"","google_maps_url":""}
+
+REGLAS:
+- metros_utiles_reales: true solo si los m² útiles aparecen explícitamente en los documentos.
+- distribucion: describe la distribución del piso si consta en documentos (ej: "3 hab, 2 baños, salón, cocina"). Si no consta, estima basándote en los m² útiles y tipología (ej: "~3 hab estimadas para 90m²").
+- orientacion: indica si se conoce o puede inferirse (sur/norte/este/oeste/sureste/etc). null si desconocida.
+- ascensor: true si consta que tiene ascensor o se está instalando, false si consta que NO tiene, null si no se sabe.
+- estado_finca: describe el estado general del edificio/finca si consta en documentos.
+- referencia_catastral: extrae la referencia catastral de los documentos si aparece (formato típico: 20 caracteres alfanuméricos). Null si no aparece.
+- es_vpo: true si la vivienda tiene algún régimen de protección oficial (VPO, VPT, VPPA, VPL, etc).
+- vpo_caducado: según la legislación española, calcula si el régimen de protección ha caducado. Ley estatal: VPO calificadas antes de 1979 → protección 25 años (caducado). 1979-2003 → protección 30 años. Post-2003 → protección permanente salvo descalificación. Comunitat Valenciana: VPT/VPPA → 30 años desde calificación. Si han pasado los años de protección contando desde el año de construcción/calificación, vpo_caducado=true.
+- vpo_info: breve explicación del régimen VPO y si ha caducado o no con el año de cálculo.
+- puntos_positivos: terraza/balcón grande, ático, >110m² útiles, garaje incluido, edificio moderno (<10 años), piscina, piso 5º+, orientación sur/sureste/suroeste, ascensor, sin cargas, precio muy por debajo mercado, vistas, buena zona. Solo lo confirmable.
+- google_maps_url: https://www.google.com/maps/search/?api=1&query=DIRECCION_URLENCODED`;
+    content.push({type:'text',text:prompt});
+
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-opus-4-5',max_tokens:4000,messages:[{role:'user',content}]})
+    });
+    clearInterval(iv);
+    if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'Error API');}
+    const data=await res.json();
+    const txt=data.content.find(c=>c.type==='text')?.text||'';
+
+    // Parseo robusto: extraer JSON aunque venga con texto alrededor o truncado
+    let r;
+    try {
+      // Intento 1: parseo limpio
+      r = JSON.parse(txt.replace(/```json|```/g,'').trim());
+    } catch(e1) {
+      try {
+        // Intento 2: extraer el bloque JSON con regex
+        const m = txt.match(/\{[\s\S]*\}/);
+        if(!m) throw new Error('No JSON encontrado');
+        let jsonStr = m[0];
+        // Reparar JSON truncado: cerrar strings, arrays y objetos abiertos
+        jsonStr = repararJSON(jsonStr);
+        r = JSON.parse(jsonStr);
+      } catch(e2) {
+        throw new Error('La IA devolvió una respuesta que no se pudo leer. Inténtalo de nuevo — a veces ocurre con PDFs muy grandes.');
+      }
+    }
+
+    resultado={...r,_url:url,_ts:new Date().toISOString(),_pdf_nombres:pdfNombres};
+    chatLog=[{role:'user',content:prompt},{role:'assistant',content:txt}];
+    mostrar(r);
+  }catch(err){
+    clearInterval(iv);
+    document.getElementById('btn-area').style.display='block';
+    document.getElementById('analyzing').style.display='none';
+    alert('Error: '+err.message);
+  }
+}
+
+function fmt(n){return n?n.toLocaleString('es-ES')+' €':'—';}
+
+function repararJSON(str){
+  // Elimina caracteres de control que rompen JSON
+  str = str.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
+  // Cuenta llaves/corchetes/comillas para cerrar lo que falta
+  let depth = 0, inStr = false, escaped = false;
+  for(let i=0;i<str.length;i++){
+    const c=str[i];
+    if(escaped){escaped=false;continue;}
+    if(c==='\\' && inStr){escaped=true;continue;}
+    if(c==='"'){inStr=!inStr;continue;}
+    if(inStr) continue;
+    if(c==='{' || c==='[') depth++;
+    if(c==='}' || c===']') depth--;
+  }
+  // Si estamos dentro de un string sin cerrar, cerrarlo
+  if(inStr) str += '"';
+  // Cerrar arrays/objetos abiertos
+  // Primero terminar el valor actual si hay coma al final
+  str = str.replace(/,\s*$/, '');
+  // Cerrar con null si el último valor está incompleto
+  if(str.match(/:\s*"[^"]*$/)) str += '"';
+  else if(str.match(/:\s*$/)) str += 'null';
+  // Añadir cierres necesarios — recalcular
+  let opens = [];
+  inStr = false; escaped = false;
+  for(let i=0;i<str.length;i++){
+    const c=str[i];
+    if(escaped){escaped=false;continue;}
+    if(c==='\\' && inStr){escaped=true;continue;}
+    if(c==='"'){inStr=!inStr;continue;}
+    if(inStr) continue;
+    if(c==='{') opens.push('}');
+    else if(c==='[') opens.push(']');
+    else if(c==='}' || c===']') opens.pop();
+  }
+  return str + opens.reverse().join('');
+}
+
+function extraerCiudad(direccion){
+  if(!direccion) return null;
+  const partes = direccion.split(',').map(p=>p.trim());
+  for(let i=partes.length-1;i>=1;i--){
+    const p = partes[i].replace(/\d{5}/g,'').trim();
+    if(p.length>2 && !/^\d+$/.test(p)){
+      return p.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+        .replace(/[^a-z0-9\s]/g,'')
+        .trim()
+        .replace(/\s+/g,'-');
+    }
+  }
+  return null;
+}
+
+function extraerCiudadRaw(direccion){
+  if(!direccion) return null;
+  const partes = direccion.split(',').map(p=>p.trim());
+  for(let i=partes.length-1;i>=1;i--){
+    const p = partes[i].replace(/\d{5}/g,'').trim();
+    if(p.length>2 && !/^\d+$/.test(p)) return p;
+  }
+  return null;
+}
+
+function municipioSlug(raw){
+  if(!raw) return null;
+  return raw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-');
+}
+
+function idealistaUrlPara(direccion){
+  const raw=extraerCiudadRaw(direccion);
+  const slug=municipioSlug(raw);
+  if(!slug) return 'https://www.idealista.com/venta-viviendas/';
+  // Valencia capital no lleva provincia, el resto sí: torrent-valencia, paterna-valencia
+  if(slug==='valencia') return 'https://www.idealista.com/venta-viviendas/valencia/';
+  return `https://www.idealista.com/venta-viviendas/${slug}-valencia/`;
+}
+
+function fotocasaUrlPara(direccion){
+  const raw=extraerCiudadRaw(direccion);
+  const slug=municipioSlug(raw);
+  if(!slug) return 'https://www.fotocasa.es/es/comprar/viviendas/espana/todas-las-zonas/l';
+  // Valencia capital usa "valencia-capital", resto usa "municipio-valencia"
+  const fotocasaSlug = (slug==='valencia') ? 'valencia-capital' : slug+'-valencia';
+  return `https://www.fotocasa.es/es/comprar/viviendas/${fotocasaSlug}/todas-las-zonas/l`;
+}
+
+function copiarRefCatastral(){
+  const ref = document.getElementById('r-ref-catastral-num')?.textContent||'';
+  if(!ref) return;
+  navigator.clipboard.writeText(ref).then(()=>{
+    const btn = document.querySelector('#r-ref-catastral button');
+    if(btn){ btn.textContent='✓'; setTimeout(()=>btn.textContent='📋', 1500); }
+  }).catch(()=>{
+    // Fallback para navegadores sin clipboard API
+    const el = document.createElement('textarea');
+    el.value = ref; document.body.appendChild(el);
+    el.select(); document.execCommand('copy');
+    document.body.removeChild(el);
+    const btn = document.querySelector('#r-ref-catastral button');
+    if(btn){ btn.textContent='✓'; setTimeout(()=>btn.textContent='📋', 1500); }
+  });
+}
+function mostrar(r){
+  document.getElementById('analyzing').style.display='none';
+  document.getElementById('result-section').style.display='block';
+
+  const fb=document.getElementById('r-fecha-banner');
+  // Validar que la fecha sea real (no el placeholder "DD/MM/AAAA" ni vacía)
+  const fechaValida = r.fecha_fin && r.fecha_fin !== 'DD/MM/AAAA' && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(r.fecha_fin);
+  if(fechaValida){
+    fb.style.display='flex';
+    document.getElementById('r-fecha').textContent=r.fecha_fin;
+    document.getElementById('r-hora').textContent='a las '+(r.hora_fin||'18:00')+'h';
+    const d=r.dias_restantes;
+    document.getElementById('r-dias').textContent=d!==null&&d!==undefined?d:'—';
+    fb.className='fecha-banner '+(d<=7?'urgent':d<=21?'soon':'ok');
+    // Calcular dias_restantes si la IA no lo hizo
+    if((d===null||d===undefined) && r.fecha_fin){
+      try{
+        const pts=r.fecha_fin.split('/');
+        const fFin=new Date(parseInt(pts[2]),parseInt(pts[1])-1,parseInt(pts[0]),18,0,0);
+        const diasCalc=Math.ceil((fFin-new Date())/(1000*60*60*24));
+        document.getElementById('r-dias').textContent=diasCalc>=0?diasCalc:'Finalizada';
+        fb.className='fecha-banner '+(diasCalc<=7?'urgent':diasCalc<=21?'soon':'ok');
+        r.dias_restantes=diasCalc;
+      }catch(e){}
+    }
+  } else fb.style.display='none';
+
+  document.getElementById('r-address').textContent=r.direccion||'—';
+  const mUtil = r.superficie_util ? (r.superficie_util+'m² útiles'+(r.metros_utiles_reales?' (real)':' (est.)')) : '';
+  const ascInfo = r.ascensor===true ? '🛗 Con ascensor' : r.ascensor===false ? '🚫 Sin ascensor' : '';
+  const orientInfo = r.orientacion ? '🧭 '+r.orientacion : '';
+  document.getElementById('r-ref').textContent=[r.tipo,r.superficie_construida?r.superficie_construida+'m² construidos':'',mUtil,r.planta||'',ascInfo,orientInfo].filter(Boolean).join(' · ');
+
+  // Distribución
+  const distEl = document.getElementById('r-distribucion');
+  if(r.distribucion){ distEl.style.display='block'; distEl.textContent='📐 '+r.distribucion+(r.metros_utiles_reales?'':' (estimada)'); }
+  else distEl.style.display='none';
+
+  // Estado finca
+  const estadoEl = document.getElementById('r-estado-finca');
+  if(r.estado_finca){ estadoEl.style.display='block'; estadoEl.textContent='🏗 Estado: '+r.estado_finca; }
+  else estadoEl.style.display='none';
+
+  // Referencia catastral + link catastro
+  const refCatEl = document.getElementById('r-ref-catastral');
+  if(r.referencia_catastral){
+    refCatEl.style.display='flex';
+    document.getElementById('r-ref-catastral-num').textContent = r.referencia_catastral;
+    // Catastro: usar la búsqueda del mapa — más fiable que la consulta directa
+    const catUrl = `https://www1.sedecatastro.gob.es/Cartografia/mapa.aspx?buscar=S`;
+    document.getElementById('r-catastro-link').href = catUrl;
+    document.getElementById('r-catastro-link').title = `Copia la ref: ${r.referencia_catastral} y pégala en el buscador del catastro`;
+  } else {
+    refCatEl.style.display='none';
+  }
+
+  // Referencia expediente
+  const refExpEl = document.getElementById('r-ref-exp');
+  if(r.referencia){ refExpEl.style.display='block'; refExpEl.textContent='Exp: '+r.referencia; }
+  else refExpEl.style.display='none';
+
+  // Botones de ubicación y portales
+  const mapsUrl = r.google_maps_url || ('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(r.direccion||''));
+  const mapsBtn = document.getElementById('r-maps-btn');
+  mapsBtn.href = mapsUrl; mapsBtn.style.display = 'inline-flex';
+
+  // Construir URLs de portales con el municipio correcto
+  const idealistaUrl = idealistaUrlPara(r.direccion);
+  const idealistaBtn = document.getElementById('r-idealista-btn');
+  idealistaBtn.href = idealistaUrl; idealistaBtn.style.display = 'inline-flex';
+
+  const fotocasaUrl = fotocasaUrlPara(r.direccion);
+  const fotocasaBtn = document.getElementById('r-fotocasa-btn');
+  fotocasaBtn.href = fotocasaUrl; fotocasaBtn.style.display = 'inline-flex';
+
+  // Reset decision
+  setDecision(null, true);
+
+  const ab=document.getElementById('r-act-banner');
+  if(r.factor_actualizacion&&r.factor_actualizacion!==1&&r.anio_tasacion){
+    ab.style.display='block';
+    ab.textContent=`ℹ️ Tasación de ${r.anio_tasacion} actualizada a 2026 (+${((r.factor_actualizacion-1)*100).toFixed(0)}%). ${r.precio_mercado_fuente||''}`;
+  } else ab.style.display='none';
+
+  document.getElementById('r-metrics').innerHTML=[
+    {l:'Tasación original',   v:fmt(r.tasacion_original),              n:r.anio_tasacion?'de '+r.anio_tasacion:'', c:''},
+    {l:'Precio mercado 2026', v:fmt(r.precio_mercado_estimado),        n:'',                                        c:'m-blue'},
+    {l:'Mín. adjudicación',   v:fmt(r.valor_minimo_puja),              n:'',                                        c:'m-amber'},
+    {l:'Depósito',            v:fmt(r.deposito_requerido),             n:'',                                        c:''},
+    {l:'Cargas',              v:r.cargas>0?fmt(r.cargas):'Sin cargas', n:r.descripcion_cargas&&r.cargas>0?r.descripcion_cargas.slice(0,40):'', c:r.cargas>0?'m-red':'m-green'},
+    ...(r.es_vpo ? [{l:'Régimen VPO', v:r.vpo_caducado?'⚠️ VPO caducado':'🔒 VPO vigente', n:r.vpo_info||'', c:r.vpo_caducado?'m-green':'m-red'}] : []),
+  ].map(m=>`<div class="metric ${m.c}"><div class="metric-label">${m.l}</div><div class="metric-value" style="font-size:${m.v&&m.v.length>12?'14px':'20px'}">${m.v}</div>${m.n?`<div class="metric-note" style="font-size:12px;line-height:1.4;margin-top:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical">${m.n}</div>`:''}</div>`).join('');
+
+  // Situación posesoria — bloque aparte con color semántico
+  const posEl=document.getElementById('r-posesoria');
+  if(r.situacion_posesoria){
+    posEl.style.display='flex';
+    document.getElementById('r-posesoria-txt').textContent=r.situacion_posesoria;
+    const esProblema = r.vivienda_habitual || r.necesita_lanzamiento || (r.situacion_posesoria||'').toLowerCase().includes('ocupad');
+    if(esProblema){
+      posEl.style.background='#FEF2F2';
+      posEl.style.border='1px solid #FCA5A5';
+      posEl.style.color='#7F1D1D';
+      document.getElementById('r-posesoria-icon').textContent='🚨';
+      document.querySelector('#r-posesoria > div > div:last-child').style.color='#991B1B';
+    } else {
+      posEl.style.background='#F0FDF4';
+      posEl.style.border='1px solid #86EFAC';
+      posEl.style.color='#14532D';
+      document.getElementById('r-posesoria-icon').textContent='✅';
+      document.querySelector('#r-posesoria > div > div:last-child').style.color='#166534';
+    }
+  } else posEl.style.display='none';
+
+  // Mostrar botón calendario si hay fecha
+  document.getElementById('btn-cal').style.display = r.fecha_fin ? 'inline-flex' : 'none';
+
+  // Franja de puja
+  const pMin = r.puja_minima || Math.round((r.puja_recomendada||0) * 0.9 / 1000) * 1000;
+  const pMax = r.puja_maxima || r.puja_recomendada || 0;
+  const franjaStr = pMin && pMax ? pMin.toLocaleString('es-ES') + ' € — ' + pMax.toLocaleString('es-ES') + ' €' : fmt(pMax);
+  document.getElementById('r-puja').textContent = franjaStr;
+  document.getElementById('r-puja-note').textContent = pMax ? ((pMax / (r.tasacion_original||pMax) * 100).toFixed(1) + '% sobre tasación (techo) · Cálculo para SL') : '—';
+
+  // Beneficio neto con franja
+  const bMin = r.beneficio_neto_minimo || r.beneficio_estimado || 0;
+  const bMax = r.beneficio_neto_maximo || bMin;
+  const benefStr = bMin && bMax && bMax !== bMin
+    ? bMin.toLocaleString('es-ES') + ' — ' + bMax.toLocaleString('es-ES') + ' €'
+    : fmt(bMin);
+  document.getElementById('r-beneficio').textContent = benefStr;
+
+  // Desglose de gastos
+  const detEl = document.getElementById('r-beneficio-detalle');
+  const lineas = [];
+  if(r.gastos_compra) lineas.push('Compra (ITP+notaría+reg.): −'+r.gastos_compra.toLocaleString('es-ES')+'€');
+  if(r.gastos_venta)  lineas.push('Venta (inmo.+plusvalía): −'+r.gastos_venta.toLocaleString('es-ES')+'€');
+  if(r.irpf_estimado) lineas.push('IS Sociedades (23/25%): −'+r.irpf_estimado.toLocaleString('es-ES')+'€');
+  if(lineas.length) lineas.push('⚠ Previo a dividendos (+19%)');
+  detEl.innerHTML = lineas.join('<br>');
+
+  if(r.alertas?.length){
+    document.getElementById('r-alertas-wrap').style.display='block';
+    document.getElementById('r-alertas').innerHTML=r.alertas.map(a=>`<span class="tag">⚠️ ${a}</span>`).join('');
+  } else document.getElementById('r-alertas-wrap').style.display='none';
+
+  if(r.puntos_positivos?.length){
+    document.getElementById('r-positivos-wrap').style.display='block';
+    document.getElementById('r-positivos').innerHTML=r.puntos_positivos.map(p=>`<span class="tag-green">✓ ${p}</span>`).join('');
+  } else document.getElementById('r-positivos-wrap').style.display='none';
+
+  document.getElementById('r-resumen').textContent=r.resumen_ejecutivo||'';
+
+  const analisisEl = document.getElementById('r-analisis');
+  analisisEl.innerHTML = '';
+  analisisEl.appendChild(document.createTextNode(r.analisis||''));
+
+  document.getElementById('result-section').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function setDecision(val, reset=false){
+  if(reset){ val=null; }
+  if(resultado) resultado._decision=val;
+
+  // Botones — incluye el de "sin decidir"
+  ['si','ver','no'].forEach(v=>{
+    const btn=document.getElementById('dec-'+v);
+    if(btn) btn.className='btn-decision'+(val===v?' active-'+v:'');
+  });
+  const btnNull=document.getElementById('dec-null');
+  if(btnNull) btnNull.className='btn-decision'+(val===null||val===undefined?' active-null':'');
+
+  const razonesEl=document.getElementById('r-razones-no');
+  if(razonesEl) razonesEl.style.display=(val==='no'?'flex':'none');
+
+  // Display badge
+  const dispEl=document.getElementById('r-decision-display');
+  if(dispEl){
+    if(val==='si'){
+      dispEl.style.display='block';
+      dispEl.innerHTML=`<div style="display:inline-flex;align-items:center;gap:6px;background:#F0FDF4;border:1px solid #86EFAC;color:#166534;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600">✅ Marcada como: vamos a pujar</div>`;
+    } else if(val==='ver'){
+      dispEl.style.display='block';
+      dispEl.innerHTML=`<div style="display:inline-flex;align-items:center;gap:6px;background:var(--gold-l);border:1px solid #E8C97A;color:var(--gold);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600">👁 Marcada como: a ver cómo evoluciona</div>`;
+    } else if(val==='no'){
+      dispEl.style.display='block';
+      dispEl.innerHTML=`<div style="display:inline-flex;align-items:center;gap:6px;background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600">❌ Marcada como: no pujamos</div>`;
+    } else {
+      dispEl.style.display='none';
+    }
+  }
+}
+
+function getRazones(){
+  return Array.from(document.querySelectorAll('#r-razones-no input:checked')).map(i=>i.value);
+}
+
+function sugerir(el){document.getElementById('chat-in').value=el.textContent;chat();}
+
+async function chat(){
+  const input=document.getElementById('chat-in');
+  const q=input.value.trim();
+  if(!q||!resultado) return;
+  const k=localStorage.getItem('anthropic_key')||'';
+  if(!k){alert('Configura tu API Key.');return;}
+  input.value='';
+  const msgs=document.getElementById('chat-msgs');
+  msgs.innerHTML+=`<div class="cmsg user">${q}</div>`;
+  const tid='t'+Date.now();
+  msgs.innerHTML+=`<div class="cmsg ai thinking" id="${tid}">Analizando...</div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+  chatLog.push({role:'user',content:`Pregunta sobre el análisis de esta subasta: "${q}". Responde de forma concisa y cita los documentos o datos concretos en los que te basas. Máximo 200 palabras.`});
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-opus-4-5',max_tokens:500,messages:chatLog})
+    });
+    const data=await res.json();
+    const resp=data.content.find(c=>c.type==='text')?.text||'Sin respuesta.';
+    chatLog.push({role:'assistant',content:resp});
+    document.getElementById(tid).remove();
+    msgs.innerHTML+=`<div class="cmsg ai">${resp}</div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+  }catch(err){document.getElementById(tid).textContent='Error: '+err.message;}
+}
+
+function guardar(){
+  if(!resultado) return;
+  const razones = getRazones();
+
+  // Si estamos reanalizando, sobreescribir la propiedad existente
+  if(window._reanalizandoId){
+    const idx = props.findIndex(p=>p._id===window._reanalizandoId);
+    if(idx>=0){
+      const old = props[idx];
+      props[idx] = {
+        ...resultado,
+        _id: old._id,
+        _notas: old._notas,
+        _estado: old._estado,
+        _decision: old._decision,
+        _razones_no: old._razones_no,
+        _url: resultado._url || old._url,
+        _pdf_nombres: resultado._pdf_nombres?.length ? resultado._pdf_nombres : old._pdf_nombres,
+        _ts: new Date().toISOString()
+      };
+      window._reanalizandoId = null;
+      saveData(); renderCal();
+      alert('✓ Propiedad actualizada con el nuevo análisis.');
+      show('lista'); return;
+    }
+    window._reanalizandoId = null;
+  }
+
+  // Nuevo guardado normal
+  if(props.find(p=>p._ts===resultado._ts)){ alert('Esta propiedad ya está guardada.'); show('lista'); return; }
+  props.unshift({...resultado,_id:Date.now(),_notas:'',_estado:'activa',_razones_no:razones});
+  saveData(); renderCal(); toast('✓ Guardada'); show('lista');
+}
+
+function anadirCalendario(){
+  if(!resultado||!resultado.fecha_fin){ alert('Esta subasta no tiene fecha de fin detectada.'); return; }
+  // Si ya está guardada, marcarla; si no, guardarla primero
+  let prop = props.find(p=>p._ts===resultado._ts);
+  if(!prop){
+    prop = {...resultado,_id:Date.now(),_notas:'',_estado:'activa',_en_calendario:true};
+    props.unshift(prop);
+  } else {
+    prop._en_calendario = true;
+  }
+  saveData(); renderCal();
+  alert('📅 Añadida al calendario: '+resultado.fecha_fin+' a las '+(resultado.hora_fin||'18:00')+'h');
+  show('calendario');
+}
+
+function resetForm(){
+  archivos=[]; renderFiles();
+  document.getElementById('url-input').value='';
+  document.getElementById('notas-previas').value='';
+  document.getElementById('result-section').style.display='none';
+  document.getElementById('btn-area').style.display='block';
+  document.getElementById('btn-cal').style.display='none';
+  resultado=null; chatLog=[];
+  document.getElementById('chat-msgs').innerHTML='';
+  window._reanalizandoId=null;
+  const av=document.getElementById('reanalisis-aviso'); if(av) av.remove();
+  window.scrollTo(0,0);
+}
+
+function filtrar(tipo,btn){
+  filtroActual=tipo;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); renderLista();
+}
+
+function renderLista(){
+  const s=(document.getElementById('search-in')?.value||'').toLowerCase();
+  const lista=props.filter(p=>{
+    const ms=!s||(p.direccion||'').toLowerCase().includes(s)||(p.referencia||'').toLowerCase().includes(s);
+    const mf=filtroActual==='todas'||(filtroActual==='activas'&&p._estado==='activa')||(filtroActual==='archivadas'&&p._estado!=='activa');
+    return ms&&mf;
+  });
+  const c=document.getElementById('lista-container');
+  if(!lista.length){
+    c.innerHTML=`<div class="empty-state"><div class="empty-house">🏠</div><h3>Sin viviendas guardadas</h3><p>Analiza tu primera subasta y guárdala aquí.</p></div>`;
+    return;
+  }
+  c.innerHTML=`<div class="prop-grid">${lista.map(propCard).join('')}</div>`;
+}
+
+function propCard(p){
+  const d=p.dias_restantes;
+  const badge=d!==null&&d!==undefined?`<span class="badge ${d<=7?'badge-danger':d<=21?'badge-warning':'badge-success'}">${d}d</span>`:'';
+
+  // Color según decisión — fondos y bordes mucho más saturados
+  let decStyle='', decTag='';
+  if(p._decision==='si'){
+    decStyle='border:2.5px solid #16A34A;border-top:6px solid #15803D;background:linear-gradient(160deg,#DCFCE7 0%,#FFFFFF 55%);';
+    decTag=`<span style="font-size:12px;font-weight:700;color:#14532D;background:#BBF7D0;border:1.5px solid #4ADE80;padding:4px 12px;border-radius:20px">✅ Pujamos</span>`;
+  } else if(p._decision==='no'){
+    // Mostrar razón principal si la hay
+    const razonLabels={vivienda_habitual:'Vivienda habitual del ejecutado',puja_alta:'Puja demasiado alta',cargas:'Cargas elevadas',estado:'Estado desconocido/malo',lanzamiento:'Necesita lanzamiento',otros:'Otros motivos'};
+    const razon = p._razones_no?.length ? razonLabels[p._razones_no[0]]||p._razones_no[0] : null;
+    decStyle='border:2.5px solid #DC2626;border-top:6px solid #B91C1C;background:linear-gradient(160deg,#FEE2E2 0%,#FFFFFF 55%);';
+    decTag=`<span style="font-size:12px;font-weight:700;color:#7F1D1D;background:#FECACA;border:1.5px solid #F87171;padding:4px 12px;border-radius:20px">❌ No pujamos${razon?' · '+razon:''}</span>`;
+  } else if(p._decision==='ver'){
+    decStyle='border:2.5px solid #D97706;border-top:6px solid #B45309;background:linear-gradient(160deg,#FEF3C7 0%,#FFFFFF 55%);';
+    decTag=`<span style="font-size:12px;font-weight:700;color:#78350F;background:#FDE68A;border:1.5px solid #F59E0B;padding:4px 12px;border-radius:20px">👁 A ver cómo evoluciona</span>`;
+  } else {
+    decStyle='border:1.5px solid var(--sand);';
+  }
+
+  // Metros
+  const mCons=p.superficie_construida?p.superficie_construida+'m² const.':'';
+  const mUtil=p.superficie_util?(p.superficie_util+'m² út.'+(p.metros_utiles_reales?'':' est.')):'';
+  const metros=[p.tipo||'',mCons,mUtil].filter(Boolean).join(' · ');
+
+  // Fecha — banner destacado, validando que sea real
+  let fechaHtml='';
+  const fechaOk = p.fecha_fin && p.fecha_fin !== 'DD/MM/AAAA' && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(p.fecha_fin);
+  if(fechaOk){
+    const sinFecha = d===null||d===undefined;
+    const esUrgente = !sinFecha && d<=7;
+    const esMedio   = !sinFecha && d<=21;
+    const bg  = esUrgente ? '#FEE2E2' : esMedio ? '#FEF3C7' : '#DCFCE7';
+    const col = esUrgente ? '#991B1B' : esMedio ? '#92400E' : '#166534';
+    const bdr = esUrgente ? '#FCA5A5' : esMedio ? '#FCD34D' : '#86EFAC';
+    const ico = esUrgente ? '🔴' : esMedio ? '🟡' : '🟢';
+    const diasTxt = !sinFecha ? ` · <strong>${d} días</strong>` : '';
+    fechaHtml=`<div style="background:${bg};border:1px solid ${bdr};border-radius:8px;padding:7px 12px;margin-bottom:.75rem;display:flex;align-items:center;gap:6px;font-size:14px;color:${col};font-weight:600">
+      ${ico} <span>Fin: ${p.fecha_fin} · 18:00h${diasTxt}</span>
+    </div>`;
+  } else {
+    fechaHtml=`<div style="background:var(--sand);border-radius:8px;padding:7px 12px;margin-bottom:.75rem;font-size:13px;color:var(--stone);font-weight:400">📅 Fecha fin no detectada — edítala en el detalle</div>`;
+  }
+
+  // Puja range
+  const mn=p.puja_minima||Math.round((p.puja_recomendada||0)*.9/1000)*1000;
+  const mx=p.puja_maxima||p.puja_recomendada||0;
+  const pujaStr=mn&&mx?mn.toLocaleString('es-ES')+'–'+mx.toLocaleString('es-ES')+'€':mx?mx.toLocaleString('es-ES')+'€':'—';
+
+  return `<div class="prop-card" style="${decStyle}" onclick="abrirDetalle(${p._id})">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+      <div class="pca" style="flex:1;padding-right:8px">${p.direccion||'—'}</div>${badge}
+    </div>
+    ${fechaHtml}
+    <div class="pcm" style="margin-bottom:.6rem">${metros}</div>
+    ${decTag?`<div style="margin-bottom:.75rem">${decTag}</div>`:''}
+    <div class="pc-metrics">
+      <div class="pcmet"><div class="l">Tasación</div><div class="v">${p.tasacion_original?p.tasacion_original.toLocaleString('es-ES')+'€':'—'}</div></div>
+      <div class="pcmet"><div class="l">Puja rec.</div><div class="v" style="color:var(--clay);font-size:12px">${pujaStr}</div></div>
+      <div class="pcmet"><div class="l">Benef. neto</div><div class="v" style="color:var(--sage);font-size:12px">${(()=>{const bMin=p.beneficio_neto_minimo||p.beneficio_estimado||0;const bMax=p.beneficio_neto_maximo||bMin;return bMin&&bMax&&bMax!==bMin?bMin.toLocaleString('es-ES')+'–'+bMax.toLocaleString('es-ES')+'€':bMin?bMin.toLocaleString('es-ES')+'€':'—';})()}</div></div>
+    </div>
+  </div>`;
+}
+
+function abrirDetalle(id){
+  const p=props.find(x=>x._id===id); if(!p) return;
+  const d=p.dias_restantes;
+  const bcls=!d||d>21?'ok':d<=7?'urgent':'soon';
+  const mUtil=p.superficie_util?(p.superficie_util+'m² útiles'+(p.metros_utiles_reales?' (real)':' (est.)')):'';
+  const esProblema=p.vivienda_habitual||p.necesita_lanzamiento||(p.situacion_posesoria||'').toLowerCase().includes('ocupad');
+  const posBg=esProblema?'background:#FEF2F2;border:1px solid #FCA5A5':'background:#F0FDF4;border:1px solid #86EFAC';
+  const posIcon=esProblema?'🚨':'✅';
+  const posColor=esProblema?'color:#991B1B':'color:#166534';
+  const decMap={si:{bg:'#F0FDF4',bc:'#86EFAC',tc:'#166534',lbl:'✅ Pujamos'},ver:{bg:'var(--gold-l)',bc:'#E8C97A',tc:'var(--gold)',lbl:'👁 A ver cómo evoluciona'},no:{bg:'#FEF2F2',bc:'#FCA5A5',tc:'#991B1B',lbl:'❌ No pujamos'}};
+  const dec=p._decision&&decMap[p._decision]?decMap[p._decision]:null;
+
+  document.getElementById('modal-body').innerHTML=`
+    ${p.fecha_fin && p.fecha_fin!=='DD/MM/AAAA' ? `<div class="fecha-banner ${bcls}" style="margin-bottom:1.25rem">
+      <div><div class="fecha-label">Fin de subasta</div><div class="fecha-valor">${p.fecha_fin}</div><div class="fecha-hora">a las ${p.hora_fin||'18:00'}h</div></div>
+      ${d!==null&&d!==undefined?`<div style="text-align:right"><div class="dias-num">${d}</div><div class="dias-text">días restantes</div></div>`:''}</div>`:
+      `<div style="background:var(--gold-l);border:1px solid #E8C97A;border-radius:var(--r);padding:12px 16px;margin-bottom:1.25rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <span style="font-size:14px;color:var(--gold);font-weight:600">📅 Fecha fin no detectada</span>
+        <input type="text" id="det-fecha-top" placeholder="DD/MM/AAAA" style="margin-bottom:0;width:150px;font-size:15px;border-color:#E8C97A" value="${p.fecha_fin&&p.fecha_fin!=='DD/MM/AAAA'?p.fecha_fin:''}"/>
+        <input type="text" id="det-hora-top" placeholder="18:00" style="margin-bottom:0;width:80px;font-size:15px;border-color:#E8C97A" value="${p.hora_fin||'18:00'}"/>
+        <button class="btn btn-secondary" onclick="guardarFechaTop(${id})" style="padding:10px 14px;border-color:var(--gold);color:var(--gold)">💾 Guardar</button>
+        ${p._url?`<a href="${p._url}" target="_blank" style="font-size:13px;color:var(--clay);font-weight:600;text-decoration:none">🔗 Ver subasta →</a>`:''}
+      </div>`}
+    <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px;line-height:1.3">${p.direccion||'—'}</div>
+    <div style="font-size:13px;color:var(--stone);margin-bottom:.75rem;font-weight:300">${[p.referencia,p.tipo,p.superficie_construida?p.superficie_construida+'m² construidos':'',mUtil].filter(Boolean).join(' · ')}</div>
+    ${p._url?`<a href="${p._url}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:1.25rem;background:var(--clay);color:white;font-size:13px;font-weight:600;text-decoration:none;padding:10px 20px;border-radius:var(--r-sm);letter-spacing:.04em;text-transform:uppercase">🔗 Ver subasta original →</a>`:''}
+    <div class="metrics" style="margin-bottom:1rem">
+      <div class="metric"><div class="metric-label">Tasación original</div><div class="metric-value">${fmt(p.tasacion_original)}</div>${p.anio_tasacion?`<div class="metric-note">de ${p.anio_tasacion}</div>`:''}</div>
+      <div class="metric m-blue"><div class="metric-label">Precio mercado 2026</div><div class="metric-value">${fmt(p.precio_mercado_estimado)}</div></div>
+      <div class="metric m-amber"><div class="metric-label">Mín. adjudicación</div><div class="metric-value">${fmt(p.valor_minimo_puja)}</div></div>
+      <div class="metric"><div class="metric-label">Depósito</div><div class="metric-value">${fmt(p.deposito_requerido)}</div></div>
+      <div class="metric ${p.cargas>0?'m-red':'m-green'}"><div class="metric-label">Cargas</div><div class="metric-value">${p.cargas>0?fmt(p.cargas):'Sin cargas'}</div></div>
+    </div>
+    ${p.situacion_posesoria?`<div style="display:flex;align-items:flex-start;gap:12px;${posBg};border-radius:var(--r);padding:12px 16px;margin-bottom:1rem">
+      <div style="font-size:20px;flex-shrink:0;line-height:1.4">${posIcon}</div>
+      <div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;${posColor};margin-bottom:4px">Situación posesoria</div>
+      <div style="font-size:14px;${posColor};line-height:1.6">${p.situacion_posesoria}</div></div>
+    </div>`:''}
+    <div class="puja-banner" style="margin-bottom:1rem">
+      <div>
+        <div class="plabel">Franja de puja recomendada</div>
+        <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--sand);line-height:1.2;letter-spacing:-0.3px">
+          ${(()=>{const mn=p.puja_minima||Math.round((p.puja_recomendada||0)*.9/1000)*1000;const mx=p.puja_maxima||p.puja_recomendada||0;return mn&&mx?mn.toLocaleString('es-ES')+' € — '+mx.toLocaleString('es-ES')+' €':fmt(mx);})()}
+        </div>
+        <div style="font-size:12px;opacity:.5;margin-top:4px">${p.puja_maxima?(( p.puja_maxima/(p.tasacion_original||p.puja_maxima)*100).toFixed(1)+'% sobre tasación (techo)'):''}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="plabel">Beneficio neto estimado</div>
+        <div class="benef-val" style="font-size:20px">${(()=>{const bMin=p.beneficio_neto_minimo||p.beneficio_estimado||0;const bMax=p.beneficio_neto_maximo||bMin;return bMin&&bMax&&bMax!==bMin?bMin.toLocaleString('es-ES')+' — '+bMax.toLocaleString('es-ES')+' €':fmt(bMin);})()}</div>
+        <div style="font-size:11px;opacity:.55;margin-top:4px;line-height:1.6;text-align:right">
+          ${p.gastos_compra?'Compra: −'+p.gastos_compra.toLocaleString('es-ES')+'€<br>':''}
+          ${p.gastos_venta?'Venta: −'+p.gastos_venta.toLocaleString('es-ES')+'€<br>':''}
+          ${p.irpf_estimado?'IS: −'+p.irpf_estimado.toLocaleString('es-ES')+'€':''}
+        </div>
+      </div>
+    </div>
+    ${p.alertas?.length?`
+      <div style="margin-bottom:1.25rem">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:.75rem">
+          <div style="width:4px;height:24px;background:var(--rust);border-radius:2px;flex-shrink:0"></div>
+          <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:400;color:var(--rust)">Alertas</div>
+        </div>
+        ${p.alertas.map(a=>`<span class="tag">⚠️ ${a}</span>`).join('')}
+      </div>`:''}
+    ${p.puntos_positivos?.length?`
+      <div style="margin-bottom:1.25rem">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:.75rem">
+          <div style="width:4px;height:24px;background:var(--sage);border-radius:2px;flex-shrink:0"></div>
+          <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:400;color:var(--sage)">Puntos positivos</div>
+        </div>
+        ${p.puntos_positivos.map(x=>`<span class="tag-green">✓ ${x}</span>`).join('')}
+      </div>`:''}
+    <p style="font-size:14px;line-height:1.8;margin-bottom:.75rem;color:var(--stone);font-weight:300">${p.analisis||''}</p>
+    ${(p.google_maps_url||p.direccion)?`
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem">
+      <a href="${p.google_maps_url||('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.direccion||''))}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:var(--sky-l);color:var(--sky);font-size:13px;font-weight:600;text-decoration:none;padding:7px 14px;border-radius:20px;border:1px solid #93C5FD">📍 Google Maps</a>
+      <a href="${idealistaUrlPara(p.direccion)}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#FFF3E0;color:#E65100;font-size:13px;font-weight:600;text-decoration:none;padding:7px 14px;border-radius:20px;border:1px solid #FFCC80">🏠 Idealista</a>
+      <a href="${fotocasaUrlPara(p.direccion)}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#E8F5E9;color:#2E7D32;font-size:13px;font-weight:600;text-decoration:none;padding:7px 14px;border-radius:20px;border:1px solid #A5D6A7">🔍 Fotocasa</a>
+    </div>`:''}
+    <div class="divider"></div>
+    <div style="margin-bottom:1rem">
+      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--stone);margin-bottom:.6rem">¿Pujamos?</div>
+      ${dec?`<div style="display:inline-flex;align-items:center;gap:6px;background:${dec.bg};border:1px solid ${dec.bc};color:${dec.tc};padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:.6rem">${dec.lbl}</div><br>`:''}
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+        <button onclick="cambiarDecision(${id},'si')" style="padding:6px 12px;border-radius:6px;border:1.5px solid #86EFAC;background:${p._decision==='si'?'#F0FDF4':'white'};color:#166534;font-size:12px;font-weight:600;cursor:pointer">✅ Pujamos</button>
+        <button onclick="cambiarDecision(${id},'ver')" style="padding:6px 12px;border-radius:6px;border:1.5px solid #E8C97A;background:${p._decision==='ver'?'var(--gold-l)':'white'};color:var(--gold);font-size:12px;font-weight:600;cursor:pointer">👁 A ver</button>
+        <button onclick="cambiarDecision(${id},'no')" style="padding:6px 12px;border-radius:6px;border:1.5px solid #FCA5A5;background:${p._decision==='no'?'#FEF2F2':'white'};color:#991B1B;font-size:12px;font-weight:600;cursor:pointer">❌ No pujamos</button>
+        <button onclick="cambiarDecision(${id},null)" style="padding:6px 12px;border-radius:6px;border:1.5px solid var(--sand);background:${!p._decision?'var(--sand)':'white'};color:var(--stone);font-size:12px;font-weight:600;cursor:pointer">↩ Sin decidir</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="margin-bottom:1rem">
+      <label style="margin-bottom:6px">📅 Fecha fin de subasta <span style="font-weight:300;color:var(--stone-l)">(editable si no se detectó)</span></label>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input type="text" id="det-fecha" placeholder="DD/MM/AAAA" value="${p.fecha_fin||''}" style="margin-bottom:0;width:160px;font-size:15px"/>
+        <input type="text" id="det-hora" placeholder="HH:MM" value="${p.hora_fin||'18:00'}" style="margin-bottom:0;width:90px;font-size:15px"/>
+        <button class="btn btn-secondary" onclick="guardarFecha(${id})" style="padding:10px 16px">💾 Guardar fecha</button>
+      </div>
+    </div>
+    <label>Notas del equipo</label>
+    <textarea id="det-notas" class="notes-area" style="margin-bottom:.75rem">${p._notas||''}</textarea>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="guardarNotas(${id})">Guardar notas</button>
+      <button class="btn btn-secondary" onclick="reanalizar(${id})" style="background:var(--clay-xl);border-color:var(--clay);color:var(--clay-d);font-weight:600">🔄 Reanalizar</button>
+      <button class="btn btn-secondary" onclick="cambiarEstado(${id})">${p._estado==='activa'?'📁 Archivar':'♻ Reactivar'}</button>
+      <button class="btn btn-secondary" style="color:var(--rust)" onclick="eliminar(${id})">🗑 Eliminar</button>
+    </div>`;
+  document.getElementById('modal').classList.add('open');
+}
+
+function cerrar(){document.getElementById('modal').classList.remove('open');}
+
+function reanalizar(id){
+  const p=props.find(x=>x._id===id); if(!p) return;
+  if(!p._url){ alert('Esta propiedad no tiene URL guardada.\nAbre la subasta original, copia la URL y pégala en Nuevo análisis.'); return; }
+  const apiKey=localStorage.getItem('anthropic_key')||'';
+  if(!apiKey){ alert('Configura tu API Key en Config primero.'); cerrar(); show('config'); return; }
+
+  const pdfs = p._pdf_nombres && p._pdf_nombres.length>0 ? p._pdf_nombres : [];
+  const pdfMsg = pdfs.length>0
+    ? `\n\n📎 PDFs del análisis original:\n${pdfs.map(n=>'• '+n).join('\n')}\n\nSi los tienes, súbelos de nuevo para un análisis más completo.\nSi no, se analizará solo con la URL del BOE.`
+    : '\n\nSe analizará con la URL guardada.';
+
+  if(!confirm(`¿Reanalizar "${p.direccion||'esta propiedad'}"?${pdfMsg}\n\nLas notas y la decisión se conservarán.`)) return;
+
+  cerrar();
+  show('nueva');
+  setTimeout(()=>{
+    document.getElementById('url-input').value = p._url||'';
+    document.getElementById('notas-previas').value = p._notas||'';
+    window._reanalizandoId = id;
+    // Aviso verde
+    const av=document.createElement('div');
+    av.id='reanalisis-aviso';
+    av.style.cssText='background:#DCFCE7;border:1px solid #86EFAC;border-radius:8px;padding:12px 16px;margin-bottom:1rem;font-size:15px;color:#166534;font-weight:500';
+    av.innerHTML = pdfs.length>0
+      ? `🔄 Modo <strong>Reanalizar</strong> — sube los PDFs si los tienes (${pdfs.map(n=>'<em>'+n+'</em>').join(', ')}) o pulsa <strong>Analizar</strong> solo con la URL.`
+      : `🔄 Modo <strong>Reanalizar</strong> — URL precargada. Pulsa <strong>Analizar con IA</strong>.`;
+    const btnArea=document.getElementById('btn-area');
+    if(!document.getElementById('reanalisis-aviso')) btnArea.parentNode.insertBefore(av,btnArea);
+  }, 100);
+}
+function cambiarDecision(id,val){const p=props.find(x=>x._id===id);if(p){p._decision=val;saveData();renderLista();abrirDetalle(id);}}
+function guardarNotas(id){const p=props.find(x=>x._id===id);if(p){p._notas=document.getElementById('det-notas').value;saveData();toast('✓ Notas guardadas');}}
+function guardarFecha(id){
+  const p=props.find(x=>x._id===id); if(!p) return;
+  const fecha=document.getElementById('det-fecha').value.trim();
+  const hora=document.getElementById('det-hora').value.trim()||'18:00';
+  guardarFechaConValores(id, fecha, hora);
+}
+
+function guardarFechaTop(id){
+  const p=props.find(x=>x._id===id); if(!p) return;
+  const fecha=(document.getElementById('det-fecha-top')?.value||'').trim();
+  const hora=(document.getElementById('det-hora-top')?.value||'18:00').trim();
+  guardarFechaConValores(id, fecha, hora);
+}
+
+function guardarFechaConValores(id, fecha, hora){
+  const p=props.find(x=>x._id===id); if(!p) return;
+  if(!fecha||!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(fecha)){alert('Introduce una fecha válida en formato DD/MM/AAAA');return;}
+  const partes=fecha.split('/');
+  let dias=null;
+  try{
+    const fFin=new Date(parseInt(partes[2]),parseInt(partes[1])-1,parseInt(partes[0]),18,0,0);
+    const hoy=new Date(); hoy.setHours(0,0,0,0);
+    dias=Math.ceil((fFin-hoy)/(1000*60*60*24));
+  }catch(e){}
+  p.fecha_fin=fecha; p.hora_fin=hora; p.dias_restantes=dias;
+  saveData(); renderLista(); renderCal();
+  
+  abrirDetalle(id);
+}
+function cambiarEstado(id){const p=props.find(x=>x._id===id);if(p){p._estado=p._estado==='activa'?'archivada':'activa';saveData();cerrar();renderLista();}}
+function eliminar(id){if(!confirm('¿Eliminar?'))return;props=props.filter(x=>x._id!==id);saveData();sbEliminar(id);cerrar();renderLista();renderCal();}
+
+function renderCal(){
+  const hoy=new Date();
+  const tit=new Date(calAnio,calMes,1).toLocaleDateString('es-ES',{month:'long',year:'numeric'});
+  document.getElementById('cal-titulo').textContent=tit.charAt(0).toUpperCase()+tit.slice(1);
+  document.getElementById('cal-hdr').innerHTML=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(d=>`<div class="cal-hd">${d}</div>`).join('');
+  const p1=new Date(calAnio,calMes,1);
+  let ds=p1.getDay(); ds=ds===0?6:ds-1;
+  const ult=new Date(calAnio,calMes+1,0).getDate();
+  const celdas=[];
+  for(let i=0;i<ds;i++)celdas.push(null);
+  for(let d=1;d<=ult;d++)celdas.push(d);
+  while(celdas.length%7!==0)celdas.push(null);
+
+  const evs={};
+  props.forEach(p=>{
+    if(!p.fecha_fin)return;
+    const pts=p.fecha_fin.split('/');if(pts.length!==3)return;
+    if(parseInt(pts[1])-1===calMes&&parseInt(pts[2])===calAnio){
+      const d=parseInt(pts[0]);if(!evs[d])evs[d]=[];evs[d].push(p);
+    }
+  });
+
+  document.getElementById('cal-body').innerHTML=celdas.map(d=>{
+    if(!d)return`<div class="cal-day other"></div>`;
+    const esHoy=hoy.getDate()===d&&hoy.getMonth()===calMes&&hoy.getFullYear()===calAnio;
+    const lista=evs[d]||[];
+    // Mostrar hasta 3; si hay más, indicar cuántos
+    const visibles=lista.slice(0,3);
+    const extra=lista.length-3;
+    const evHtml=visibles.map(e=>{
+      const calle=(e.direccion||'Subasta').split(',')[0].trim();
+      const corta=calle.length>22?calle.slice(0,20)+'…':calle;
+      return`<div class="cal-ev" onclick="abrirDetalle(${e._id});event.stopPropagation()" title="${e.direccion||''} — ${e.fecha_fin} 18:00h" style="${e._decision==='si'?'background:#16A34A':e._decision==='no'?'background:#DC2626':e._decision==='ver'?'background:#D97706':''}">🏠 ${corta}</div>`;
+    }).join('');
+    const extraHtml=extra>0?`<div class="cal-ev-more">+${extra} más</div>`:'';
+    return`<div class="cal-day${esHoy?' today':''}" onclick="calDia(${d})"><div class="cal-dn">${d}</div>${evHtml}${extraHtml}</div>`;
+  }).join('');
+
+  const evsMes=props.filter(p=>{
+    if(!p.fecha_fin)return false;
+    const pts=p.fecha_fin.split('/');
+    return pts.length===3&&parseInt(pts[1])-1===calMes&&parseInt(pts[2])===calAnio;
+  }).sort((a,b)=>parseInt((a.fecha_fin||'').split('/')[0]||0)-parseInt((b.fecha_fin||'').split('/')[0]||0));
+
+  if(evsMes.length){
+    document.getElementById('cal-lista').style.display='block';
+    document.getElementById('cal-lista-tit').textContent=evsMes.length+' subasta(s) este mes';
+    document.getElementById('cal-lista-items').innerHTML=evsMes.map(p=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--sand);cursor:pointer;gap:1rem" onclick="abrirDetalle(${p._id})">
+        <div style="min-width:0">
+          <div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.direccion||'—'}</div>
+          <div style="font-size:12px;color:var(--stone);font-weight:300;margin-top:2px">📅 ${p.fecha_fin} · 18:00h · ${p.tipo||''} ${p.superficie_construida?p.superficie_construida+'m²':''}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:14px;color:var(--clay);font-weight:600">${p.puja_recomendada?p.puja_recomendada.toLocaleString('es-ES')+'€':'—'}</div>
+          <div style="font-size:11px;color:var(--stone-l)">${p.dias_restantes!==null&&p.dias_restantes!==undefined?p.dias_restantes+'d restantes':''}</div>
+        </div>
+      </div>`).join('');
+  } else document.getElementById('cal-lista').style.display='none';
+}
+
+function calMover(dir){calMes+=dir;if(calMes>11){calMes=0;calAnio++;}if(calMes<0){calMes=11;calAnio--;}renderCal();}
+function calDia(d){const ev=props.filter(p=>{if(!p.fecha_fin)return false;const pts=p.fecha_fin.split('/');return pts.length===3&&parseInt(pts[0])===d&&parseInt(pts[1])-1===calMes&&parseInt(pts[2])===calAnio;});if(ev.length===1)abrirDetalle(ev[0]._id);}
+
+function exportar(){const b=new Blob([JSON.stringify(props,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='subastapp_'+new Date().toISOString().slice(0,10)+'.json';a.click();}
+
+async function sincronizarManual(){
+  toast('☁ Sincronizando...');
+  const ok = await sincronizarDesdeNube();
+  if(ok){ renderLista(); renderCal(); toast('✓ Sincronizado correctamente'); }
+  else { toast('⚠ Sin conexión — usando datos locales'); }
+}
+function importar(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{const d=JSON.parse(e.target.result);if(confirm(`Importar ${d.length} propiedades?`)){props=[...d,...props];saveData();renderLista();renderCal();alert('Importado correctamente.');}}catch{alert('Error al leer el archivo.');}};r.readAsText(f);}
+
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)cerrar();});
+init();
+</script>
+</body>
+</html>
