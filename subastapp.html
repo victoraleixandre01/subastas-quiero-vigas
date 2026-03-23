@@ -1281,6 +1281,17 @@ function guardarPrecioModal(id){
   toast('✓ Precio de mercado actualizado');
 }
 
+function guardarPujaFinal(id){
+  const input=document.getElementById('modal-pujafinal-input-'+id);
+  if(!input) return;
+  const val=parseInt(input.value);
+  if(!val||val<100){toast('⚠ Introduce la puja final en €');return;}
+  const p=props.find(x=>x._id===id);
+  if(p){ p._puja_final=val; saveData(); renderLista(); }
+  toast('✓ Puja final guardada: '+val.toLocaleString('es-ES')+'€');
+  abrirDetalle(id);
+}
+
 function diasRestantes(fecha_fin){
   if(!fecha_fin||fecha_fin==='DD/MM/AAAA'||!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(fecha_fin)) return null;
   const pts=fecha_fin.split('/');
@@ -1782,6 +1793,7 @@ function propCard(p){
       <div class="pcmet"><div class="l">Tasación</div><div class="v">${p.tasacion_original?p.tasacion_original.toLocaleString('es-ES')+'€':'—'}</div></div>
       <div class="pcmet"><div class="l">Puja rec.</div><div class="v" style="color:var(--clay);font-size:12px">${pujaStr}</div></div>
       <div class="pcmet"><div class="l">Benef. neto</div><div class="v" style="color:var(--sage);font-size:12px">${(()=>{const bMin=p.beneficio_neto_minimo||p.beneficio_estimado||0;const bMax=p.beneficio_neto_maximo||bMin;return bMin&&bMax&&bMax!==bMin?bMin.toLocaleString('es-ES')+'–'+bMax.toLocaleString('es-ES')+'€':bMin?bMin.toLocaleString('es-ES')+'€':'—';})()}</div></div>
+      ${p._puja_final?`<div class="pcmet"><div class="l">🏁 Concluyó en</div><div class="v" style="color:#15803D;font-weight:700">${p._puja_final.toLocaleString('es-ES')}€</div></div>`:''}
     </div>
   </div>`;
 }
@@ -1826,6 +1838,16 @@ function abrirDetalle(id){
       <div class="metric m-amber"><div class="metric-label">Mín. adjudicación</div><div class="metric-value">${fmt(p.valor_minimo_puja)}</div></div>
       <div class="metric"><div class="metric-label">Depósito</div><div class="metric-value">${fmt(p.deposito_requerido)}</div></div>
       <div class="metric ${p.cargas>0?'m-red':'m-green'}"><div class="metric-label">Cargas</div><div class="metric-value">${p.cargas>0?fmt(p.cargas):'Sin cargas'}</div></div>
+      <div class="metric" style="border:2px dashed var(--stone);background:${p._puja_final?'#F0FDF4':'var(--cream)'}">
+        <div class="metric-label" style="color:var(--stone)">🏁 Concluida en</div>
+        <div class="metric-value" style="font-size:${p._puja_final?'18px':'14px'};color:${p._puja_final?'#15803D':'var(--stone-l)'}">
+          ${p._puja_final?p._puja_final.toLocaleString('es-ES')+' €':'—'}
+        </div>
+        <div style="margin-top:6px;display:flex;gap:4px">
+          <input type="number" id="modal-pujafinal-input-${p._id}" style="width:100%;padding:4px 8px;font-size:13px;border:1px solid var(--sand);border-radius:4px;margin-bottom:0" placeholder="Puja final €" value="${p._puja_final||''}" onkeydown="if(event.key==='Enter')guardarPujaFinal(${p._id})"/>
+          <button onclick="guardarPujaFinal(${p._id})" style="padding:4px 8px;background:var(--sage);color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;white-space:nowrap">OK</button>
+        </div>
+      </div>
     </div>
     ${p.situacion_posesoria?`<div style="display:flex;align-items:flex-start;gap:12px;${posBg};border-radius:var(--r);padding:12px 16px;margin-bottom:1rem">
       <div style="font-size:20px;flex-shrink:0;line-height:1.4">${posIcon}</div>
