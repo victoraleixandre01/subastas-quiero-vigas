@@ -539,7 +539,13 @@ input:focus,select:focus,textarea:focus {
 .chat-input-row input { margin-bottom: 0; flex: 1; }
 
 /* ── LIST / CARDS ── */
-.prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 1rem; }
+.prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
+.pca { font-weight: 600; font-size: 19px; line-height: 1.4; margin-bottom: 4px; }
+.pcm { font-size: 15px; color: var(--stone); margin-bottom: .5rem; }
+.pc-metrics { display: flex; gap: .75rem; padding-top: .75rem; border-top: 1px solid var(--sand); }
+.pcmet { flex: 1; min-width: 0; }
+.pcmet .l { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--stone-l); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pcmet .v { font-size: 16px; font-weight: 600; }
 
 .prop-card {
   background: var(--white);
@@ -566,14 +572,6 @@ input:focus,select:focus,textarea:focus {
 
 .prop-card:hover { border-color: var(--clay); box-shadow: var(--shadow-md); transform: translateY(-3px); }
 .prop-card:hover::before { transform: scaleX(1); }
-
-.pca { font-weight: 600; font-size: 17px; line-height: 1.4; margin-bottom: 4px; }
-.pcm { font-size: 14px; color: var(--stone); margin-bottom: .75rem; font-weight: 300; }
-
-.pc-metrics { display: flex; gap: .75rem; padding-top: .75rem; border-top: 1px solid var(--sand); }
-.pcmet { flex: 1; }
-.pcmet .l { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--stone-l); font-weight: 600; }
-.pcmet .v { font-size: 16px; font-weight: 600; }
 
 .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
 .badge-danger { background: var(--rust-l); color: var(--rust); }
