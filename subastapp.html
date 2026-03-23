@@ -1835,7 +1835,8 @@ function propCard(p){
       <div class="pcmet"><div class="l">Tasación</div><div class="v">${p.tasacion_original?p.tasacion_original.toLocaleString('es-ES')+'€':'—'}</div></div>
       <div class="pcmet"><div class="l">Puja rec.</div><div class="v" style="color:var(--clay);font-size:12px">${pujaStr}</div></div>
       <div class="pcmet"><div class="l">Benef. neto</div><div class="v" style="color:var(--sage);font-size:12px">${(()=>{const bMin=p.beneficio_neto_minimo||p.beneficio_estimado||0;const bMax=p.beneficio_neto_maximo||bMin;return bMin&&bMax&&bMax!==bMin?bMin.toLocaleString('es-ES')+'–'+bMax.toLocaleString('es-ES')+'€':bMin?bMin.toLocaleString('es-ES')+'€':'—';})()}</div></div>
-      ${p._puja_final?`<div class="pcmet"><div class="l">🏁 Final</div><div class="v" style="color:#15803D;font-weight:700">${p._puja_final.toLocaleString('es-ES')}€</div></div>`:''}
+    </div>
+    ${p._puja_final?`<div style="margin-top:.5rem;padding:.5rem .75rem;background:#F0FDF4;border-radius:6px;border:1px solid #86EFAC;font-size:13px;font-weight:600;color:#15803D">🏁 Concluyó en ${p._puja_final.toLocaleString('es-ES')} €</div>`:''}
     </div>
   </div>`;
 }
