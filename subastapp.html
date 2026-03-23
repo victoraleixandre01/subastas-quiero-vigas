@@ -780,7 +780,7 @@ input:focus,select:focus,textarea:focus {
 
       <div class="result-address" id="r-address"></div>
       <div class="result-ref" id="r-ref"></div>
-      <div id="r-distribucion" style="display:none;font-size:13px;color:var(--stone);margin-top:4px;font-weight:400"></div>
+      <div id="r-distribucion" style="display:none;font-size:15px;color:var(--stone);margin-top:6px;margin-bottom:4px;font-weight:400;line-height:1.6"></div>
       <div id="r-estado-finca" style="display:none;font-size:13px;color:var(--stone);margin-top:3px;margin-bottom:6px;font-weight:400"></div>
       <div id="r-ref-exp" style="display:none;font-size:12px;color:var(--stone-l);margin-top:3px;margin-bottom:6px;font-weight:300"></div>
       <div id="r-ref-catastral" style="display:none;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap;margin-top:8px">
@@ -1203,7 +1203,7 @@ Responde SOLO con JSON válido, sin markdown:
 
 REGLAS:
 - metros_utiles_reales: true solo si los m² útiles aparecen explícitamente en los documentos.
-- distribucion: describe la distribución del piso si consta en documentos (ej: "3 hab, 2 baños, salón, cocina"). Si no consta, estima basándote en los m² útiles y tipología (ej: "~3 hab estimadas para 90m²").
+- distribucion: describe la distribución del piso con el máximo detalle posible. Si consta en documentos, copia los datos exactos (ej: "3 hab dobles, 1 baño, salón-comedor 20m², cocina 8m², terraza 12m²"). Si no consta, estima basándote en los m² útiles y tipología con medidas aproximadas (ej: "〜3 hab (10-12m² c/u), salón-comedor (20m²), cocina (8m²), baño (5m²) para 85m² útiles"). Indica siempre si es real o estimada.
 - orientacion: indica si se conoce o puede inferirse (sur/norte/este/oeste/sureste/etc). null si desconocida.
 - ascensor: true si consta que tiene ascensor o se está instalando, false si consta que NO tiene, null si no se sabe.
 - estado_finca: describe el estado general del edificio/finca si consta en documentos.
@@ -1255,7 +1255,19 @@ REGLAS:
   }
 }
 
-function fmt(n){return n?n.toLocaleString('es-ES')+' €':'—';}
+function guardarPrecioMercado(){
+  const input=document.getElementById('r-precio-mercado-input');
+  if(!input) return;
+  const val=parseInt(input.value);
+  if(!val||val<1000){toast('⚠ Introduce un valor válido en €');return;}
+  if(resultado) resultado.precio_mercado_estimado=val;
+  const el=document.getElementById('r-precio-mercado-val');
+  if(el) el.textContent=val.toLocaleString('es-ES')+' €';
+  input.value='';
+  toast('✓ Precio de mercado actualizado');
+}
+
+
 
 function repararJSON(str){
   // Elimina caracteres de control que rompen JSON
@@ -1393,10 +1405,13 @@ function mostrar(r){
   const orientInfo = r.orientacion ? '🧭 '+r.orientacion : '';
   document.getElementById('r-ref').textContent=[r.tipo,r.superficie_construida?r.superficie_construida+'m² construidos':'',mUtil,r.planta||'',ascInfo,orientInfo].filter(Boolean).join(' · ');
 
-  // Distribución
+  // Distribución — con fuente (edicto vs estimada)
   const distEl = document.getElementById('r-distribucion');
-  if(r.distribucion){ distEl.style.display='block'; distEl.textContent='📐 '+r.distribucion+(r.metros_utiles_reales?'':' (estimada)'); }
-  else distEl.style.display='none';
+  if(r.distribucion){
+    distEl.style.display='block';
+    const fuente = r.metros_utiles_reales ? '📄 según edicto' : '〜 estimada por m²';
+    distEl.innerHTML = `📐 <strong>Distribución:</strong> ${r.distribucion} <span style="font-size:12px;color:var(--stone-l);font-style:italic">(${fuente})</span>`;
+  } else distEl.style.display='none';
 
   // Estado finca
   const estadoEl = document.getElementById('r-estado-finca');
@@ -1445,13 +1460,18 @@ function mostrar(r){
   } else ab.style.display='none';
 
   document.getElementById('r-metrics').innerHTML=[
-    {l:'Tasación original',   v:fmt(r.tasacion_original),              n:r.anio_tasacion?'de '+r.anio_tasacion:'', c:''},
-    {l:'Precio mercado 2026', v:fmt(r.precio_mercado_estimado),        n:'',                                        c:'m-blue'},
-    {l:'Mín. adjudicación',   v:fmt(r.valor_minimo_puja),              n:'',                                        c:'m-amber'},
-    {l:'Depósito',            v:fmt(r.deposito_requerido),             n:'',                                        c:''},
-    {l:'Cargas',              v:r.cargas>0?fmt(r.cargas):'Sin cargas', n:r.descripcion_cargas&&r.cargas>0?r.descripcion_cargas.slice(0,40):'', c:r.cargas>0?'m-red':'m-green'},
-    ...(r.es_vpo ? [{l:'Régimen VPO', v:r.vpo_caducado?'⚠️ VPO caducado':'🔒 VPO vigente', n:r.vpo_info||'', c:r.vpo_caducado?'m-green':'m-red'}] : []),
-  ].map(m=>`<div class="metric ${m.c}"><div class="metric-label">${m.l}</div><div class="metric-value" style="font-size:${m.v&&m.v.length>12?'14px':'20px'}">${m.v}</div>${m.n?`<div class="metric-note" style="font-size:12px;line-height:1.4;margin-top:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical">${m.n}</div>`:''}</div>`).join('');
+    {l:'Tasación original',   v:fmt(r.tasacion_original),              n:r.anio_tasacion?'de '+r.anio_tasacion:'', c:'', edit:false},
+    {l:'Precio mercado 2026', v:fmt(r.precio_mercado_estimado),        n:r.precio_mercado_fuente||'',              c:'m-blue', edit:true, campo:'precio_mercado_estimado'},
+    {l:'Mín. adjudicación',   v:fmt(r.valor_minimo_puja),              n:'',                                       c:'m-amber', edit:false},
+    {l:'Depósito',            v:fmt(r.deposito_requerido),             n:'',                                       c:'', edit:false},
+    {l:'Cargas',              v:r.cargas>0?fmt(r.cargas):'Sin cargas', n:r.descripcion_cargas&&r.cargas>0?r.descripcion_cargas.slice(0,40):'', c:r.cargas>0?'m-red':'m-green', edit:false},
+    ...(r.es_vpo ? [{l:'Régimen VPO', v:r.vpo_caducado?'⚠️ VPO caducado':'🔒 VPO vigente', n:r.vpo_info||'', c:r.vpo_caducado?'m-green':'m-red', edit:false}] : []),
+  ].map(m=>`<div class="metric ${m.c}"${m.edit?' title="Haz doble clic para editar"':''}>
+    <div class="metric-label">${m.l}${m.edit?' ✏️':''}</div>
+    <div class="metric-value" style="font-size:${m.v&&m.v.length>12?'14px':'20px'}">${m.edit?`<span id="r-precio-mercado-val">${m.v}</span>`:m.v}</div>
+    ${m.edit?`<div style="margin-top:6px;display:flex;gap:4px;align-items:center"><input type="number" id="r-precio-mercado-input" style="width:100%;padding:4px 8px;font-size:13px;border:1px solid #93C5FD;border-radius:4px;margin-bottom:0" placeholder="Nuevo valor €" onkeydown="if(event.key==='Enter')guardarPrecioMercado()"/><button onclick="guardarPrecioMercado()" style="padding:4px 8px;background:var(--sky);color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;white-space:nowrap">OK</button></div>`:''}
+    ${m.n?`<div class="metric-note" style="font-size:12px;line-height:1.4;margin-top:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical">${m.n}</div>`:''}
+  </div>`).join('');
 
   // Situación posesoria — bloque aparte con color semántico
   const posEl=document.getElementById('r-posesoria');
@@ -1771,7 +1791,8 @@ function abrirDetalle(id){
         ${p._url?`<a href="${p._url}" target="_blank" style="font-size:13px;color:var(--clay);font-weight:600;text-decoration:none">🔗 Ver subasta →</a>`:''}
       </div>`}
     <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px;line-height:1.3">${p.direccion||'—'}</div>
-    <div style="font-size:13px;color:var(--stone);margin-bottom:.75rem;font-weight:300">${[p.referencia,p.tipo,p.superficie_construida?p.superficie_construida+'m² construidos':'',mUtil].filter(Boolean).join(' · ')}</div>
+    <div style="font-size:13px;color:var(--stone);margin-bottom:4px;font-weight:300">${[p.referencia,p.tipo,p.superficie_construida?p.superficie_construida+'m² construidos':'',mUtil].filter(Boolean).join(' · ')}</div>
+    ${p.distribucion?`<div style="font-size:14px;color:var(--stone);margin-bottom:.75rem;line-height:1.6">📐 <strong>Distribución:</strong> ${p.distribucion} <span style="font-size:12px;font-style:italic;color:var(--stone-l)">(${p.metros_utiles_reales?'📄 según edicto':'〜 estimada por m²'})</span></div>`:''}
     ${p._url?`<a href="${p._url}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:1.25rem;background:var(--clay);color:white;font-size:13px;font-weight:600;text-decoration:none;padding:10px 20px;border-radius:var(--r-sm);letter-spacing:.04em;text-transform:uppercase">🔗 Ver subasta original →</a>`:''}
     <div class="metrics" style="margin-bottom:1rem">
       <div class="metric"><div class="metric-label">Tasación original</div><div class="metric-value">${fmt(p.tasacion_original)}</div>${p.anio_tasacion?`<div class="metric-note">de ${p.anio_tasacion}</div>`:''}</div>
