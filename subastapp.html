@@ -1261,11 +1261,49 @@ function guardarPrecioMercado(){
   if(!input) return;
   const val=parseInt(input.value);
   if(!val||val<1000){toast('⚠ Introduce un valor válido en €');return;}
-  if(resultado) resultado.precio_mercado_estimado=val;
+  if(resultado){
+    resultado.precio_mercado_estimado=val;
+    recalcularBeneficio(resultado);
+    // Actualizar banner de puja y beneficio en pantalla
+    const bMin=resultado.beneficio_neto_minimo||0;
+    const bMax=resultado.beneficio_neto_maximo||bMin;
+    const benefStr=bMin&&bMax&&bMax!==bMin?bMin.toLocaleString('es-ES')+' — '+bMax.toLocaleString('es-ES')+' €':fmt(bMin);
+    document.getElementById('r-beneficio').textContent=benefStr;
+    const detEl=document.getElementById('r-beneficio-detalle');
+    if(detEl){
+      const lineas=[];
+      if(resultado.gastos_compra) lineas.push('Compra (ITP+notaría+reg.): −'+resultado.gastos_compra.toLocaleString('es-ES')+'€');
+      if(resultado.gastos_venta)  lineas.push('Venta (inmo.+plusvalía): −'+resultado.gastos_venta.toLocaleString('es-ES')+'€');
+      if(resultado.irpf_estimado) lineas.push('IS Sociedades (23/25%): −'+resultado.irpf_estimado.toLocaleString('es-ES')+'€');
+      if(lineas.length) lineas.push('⚠ Previo a dividendos (+19%)');
+      detEl.innerHTML=lineas.join('<br>');
+    }
+  }
   const el=document.getElementById('r-precio-mercado-val');
   if(el) el.textContent=val.toLocaleString('es-ES')+' €';
   input.value='';
-  toast('✓ Precio de mercado actualizado');
+  toast('✓ Precio y beneficio actualizados');
+}
+
+function recalcularBeneficio(p){
+  // Recalcula gastos y beneficio neto con el nuevo precio de mercado
+  const pm = p.precio_mercado_estimado;
+  const pMax = p.puja_maxima || 0;
+  const pMin = p.puja_minima || 0;
+  if(!pm || !pMax) return;
+  const gc = Math.round(pMax * 0.111); // gastos compra ~11.1%
+  const gv = Math.round(pm * 0.053);   // gastos venta ~5.3%
+  const baseIS = pm - pMax - gc - gv;
+  const is = Math.round(baseIS > 0 ? Math.min(baseIS, 300000) * 0.23 + Math.max(0, baseIS - 300000) * 0.25 : 0);
+  p.gastos_compra = gc;
+  p.gastos_venta = gv;
+  p.irpf_estimado = is;
+  p.beneficio_neto_minimo = Math.round(pm - pMax - gc - gv - is);
+  // con puja minima
+  const baseIS2 = pm - pMin - gc - gv;
+  const is2 = Math.round(baseIS2 > 0 ? Math.min(baseIS2, 300000) * 0.23 + Math.max(0, baseIS2 - 300000) * 0.25 : 0);
+  p.beneficio_neto_maximo = Math.round(pm - pMin - gc - gv - is2);
+  p.beneficio_estimado = p.beneficio_neto_minimo;
 }
 
 function guardarPrecioModal(id){
@@ -1274,21 +1312,25 @@ function guardarPrecioModal(id){
   const val=parseInt(input.value);
   if(!val||val<1000){toast('⚠ Introduce un valor válido en €');return;}
   const p=props.find(x=>x._id===id);
-  if(p){ p.precio_mercado_estimado=val; saveData(); }
+  if(p){ p.precio_mercado_estimado=val; recalcularBeneficio(p); saveData(); renderLista(); }
   const el=document.getElementById('modal-precio-val-'+id);
   if(el) el.textContent=val.toLocaleString('es-ES')+' €';
   input.value='';
-  toast('✓ Precio de mercado actualizado');
+  toast('✓ Precio y beneficio actualizados');
+  abrirDetalle(id);
 }
 
 function guardarPujaFinal(id){
   const input=document.getElementById('modal-pujafinal-input-'+id);
   if(!input) return;
-  const val=parseInt(input.value);
-  if(!val||val<100){toast('⚠ Introduce la puja final en €');return;}
+  const val=input.value.trim()===''?0:parseInt(input.value);
   const p=props.find(x=>x._id===id);
-  if(p){ p._puja_final=val; saveData(); renderLista(); }
-  toast('✓ Puja final guardada: '+val.toLocaleString('es-ES')+'€');
+  if(p){ 
+    if(!val || val===0) delete p._puja_final;
+    else p._puja_final=val;
+    saveData(); renderLista();
+  }
+  toast(val?'✓ Puja final guardada: '+val.toLocaleString('es-ES')+'€':'✓ Puja final eliminada');
   abrirDetalle(id);
 }
 
@@ -1846,6 +1888,7 @@ function abrirDetalle(id){
         <div style="margin-top:6px;display:flex;gap:4px">
           <input type="number" id="modal-pujafinal-input-${p._id}" style="width:100%;padding:4px 8px;font-size:13px;border:1px solid var(--sand);border-radius:4px;margin-bottom:0" placeholder="Puja final €" value="${p._puja_final||''}" onkeydown="if(event.key==='Enter')guardarPujaFinal(${p._id})"/>
           <button onclick="guardarPujaFinal(${p._id})" style="padding:4px 8px;background:var(--sage);color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;white-space:nowrap">OK</button>
+          ${p._puja_final?`<button onclick="document.getElementById('modal-pujafinal-input-${p._id}').value='';guardarPujaFinal(${p._id})" style="padding:4px 8px;background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;border-radius:4px;cursor:pointer;font-size:12px">✕</button>`:''}
         </div>
       </div>
     </div>
