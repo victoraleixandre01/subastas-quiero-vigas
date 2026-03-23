@@ -1268,6 +1268,19 @@ function guardarPrecioMercado(){
   toast('✓ Precio de mercado actualizado');
 }
 
+function guardarPrecioModal(id){
+  const input=document.getElementById('modal-precio-input-'+id);
+  if(!input) return;
+  const val=parseInt(input.value);
+  if(!val||val<1000){toast('⚠ Introduce un valor válido en €');return;}
+  const p=props.find(x=>x._id===id);
+  if(p){ p.precio_mercado_estimado=val; saveData(); }
+  const el=document.getElementById('modal-precio-val-'+id);
+  if(el) el.textContent=val.toLocaleString('es-ES')+' €';
+  input.value='';
+  toast('✓ Precio de mercado actualizado');
+}
+
 function fmt(n){return n?n.toLocaleString('es-ES')+' €':'—';}function repararJSON(str){
   // Elimina caracteres de control que rompen JSON
   str = str.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
@@ -1724,7 +1737,7 @@ function propCard(p){
 
   // Metros
   const mCons=p.superficie_construida?p.superficie_construida+'m² const.':'';
-  const mUtil=p.superficie_util?(p.superficie_util+'m² út.'+(p.metros_utiles_reales?'':' est.')):'';
+  const mUtil=p.superficie_util?(p.superficie_util+'m² út.'+(p.metros_utiles_reales?' ✓':' ~')):'';
   const metros=[p.tipo||'',mCons,mUtil].filter(Boolean).join(' · ');
 
   // Fecha — banner destacado, validando que sea real
@@ -1790,12 +1803,19 @@ function abrirDetalle(id){
         ${p._url?`<a href="${p._url}" target="_blank" style="font-size:13px;color:var(--clay);font-weight:600;text-decoration:none">🔗 Ver subasta →</a>`:''}
       </div>`}
     <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px;line-height:1.3">${p.direccion||'—'}</div>
-    <div style="font-size:13px;color:var(--stone);margin-bottom:4px;font-weight:300">${[p.referencia,p.tipo,p.superficie_construida?p.superficie_construida+'m² construidos':'',mUtil].filter(Boolean).join(' · ')}</div>
+    <div style="font-size:13px;color:var(--stone);margin-bottom:4px;font-weight:300">${[p.referencia,p.tipo,p.superficie_construida?p.superficie_construida+'m² const.':'',mUtil?(mUtil+(p.metros_utiles_reales?' <span style="font-size:11px;color:var(--sage)">(real)</span>':' <span style="font-size:11px;color:var(--stone-l)">(est.)</span>')):'' ].filter(Boolean).join(' · ')}</div>
     ${p.distribucion?`<div style="font-size:14px;color:var(--stone);margin-bottom:.75rem;line-height:1.6">📐 <strong>Distribución:</strong> ${p.distribucion} <span style="font-size:12px;font-style:italic;color:var(--stone-l)">(${p.metros_utiles_reales?'📄 según edicto':'〜 estimada por m²'})</span></div>`:''}
     ${p._url?`<a href="${p._url}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:1.25rem;background:var(--clay);color:white;font-size:13px;font-weight:600;text-decoration:none;padding:10px 20px;border-radius:var(--r-sm);letter-spacing:.04em;text-transform:uppercase">🔗 Ver subasta original →</a>`:''}
     <div class="metrics" style="margin-bottom:1rem">
       <div class="metric"><div class="metric-label">Tasación original</div><div class="metric-value">${fmt(p.tasacion_original)}</div>${p.anio_tasacion?`<div class="metric-note">de ${p.anio_tasacion}</div>`:''}</div>
-      <div class="metric m-blue"><div class="metric-label">Precio mercado 2026</div><div class="metric-value">${fmt(p.precio_mercado_estimado)}</div></div>
+      <div class="metric m-blue" title="Editable — introduce nuevo valor y pulsa OK">
+        <div class="metric-label">Precio mercado 2026 ✏️</div>
+        <div class="metric-value" id="modal-precio-val-${p._id}">${fmt(p.precio_mercado_estimado)}</div>
+        <div style="margin-top:6px;display:flex;gap:4px">
+          <input type="number" id="modal-precio-input-${p._id}" style="width:100%;padding:4px 8px;font-size:13px;border:1px solid #93C5FD;border-radius:4px;margin-bottom:0" placeholder="Nuevo valor €" onkeydown="if(event.key==='Enter')guardarPrecioModal(${p._id})"/>
+          <button onclick="guardarPrecioModal(${p._id})" style="padding:4px 8px;background:var(--sky);color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;white-space:nowrap">OK</button>
+        </div>
+      </div>
       <div class="metric m-amber"><div class="metric-label">Mín. adjudicación</div><div class="metric-value">${fmt(p.valor_minimo_puja)}</div></div>
       <div class="metric"><div class="metric-label">Depósito</div><div class="metric-value">${fmt(p.deposito_requerido)}</div></div>
       <div class="metric ${p.cargas>0?'m-red':'m-green'}"><div class="metric-label">Cargas</div><div class="metric-value">${p.cargas>0?fmt(p.cargas):'Sin cargas'}</div></div>
