@@ -1281,6 +1281,13 @@ function guardarPrecioModal(id){
   toast('✓ Precio de mercado actualizado');
 }
 
+function diasRestantes(fecha_fin){
+  if(!fecha_fin||fecha_fin==='DD/MM/AAAA'||!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(fecha_fin)) return null;
+  const pts=fecha_fin.split('/');
+  const fFin=new Date(parseInt(pts[2]),parseInt(pts[1])-1,parseInt(pts[0]),18,0,0);
+  const hoy=new Date(); hoy.setHours(0,0,0,0);
+  return Math.ceil((fFin-hoy)/(1000*60*60*24));
+}
 function fmt(n){return n?n.toLocaleString('es-ES')+' €':'—';}function repararJSON(str){
   // Elimina caracteres de control que rompen JSON
   str = str.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
@@ -1714,7 +1721,7 @@ function renderLista(){
 }
 
 function propCard(p){
-  const d=p.dias_restantes;
+  const d=diasRestantes(p.fecha_fin);
   const badge=d!==null&&d!==undefined?`<span class="badge ${d<=7?'badge-danger':d<=21?'badge-warning':'badge-success'}">${d}d</span>`:'';
 
   // Color según decisión — fondos y bordes mucho más saturados
@@ -1781,7 +1788,7 @@ function propCard(p){
 
 function abrirDetalle(id){
   const p=props.find(x=>x._id===id); if(!p) return;
-  const d=p.dias_restantes;
+  const d=diasRestantes(p.fecha_fin);
   const bcls=!d||d>21?'ok':d<=7?'urgent':'soon';
   const mUtil=p.superficie_util?(p.superficie_util+'m² útiles'+(p.metros_utiles_reales?' (real)':' (est.)')):'';
   const esProblema=p.vivienda_habitual||p.necesita_lanzamiento||(p.situacion_posesoria||'').toLowerCase().includes('ocupad');
