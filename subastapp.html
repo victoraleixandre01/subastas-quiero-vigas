@@ -1267,9 +1267,7 @@ function guardarPrecioMercado(){
   toast('✓ Precio de mercado actualizado');
 }
 
-
-
-function repararJSON(str){
+function fmt(n){return n?n.toLocaleString('es-ES')+' €':'—';}function repararJSON(str){
   // Elimina caracteres de control que rompen JSON
   str = str.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
   // Cuenta llaves/corchetes/comillas para cerrar lo que falta
