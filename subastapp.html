@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SubastasAPP — Quiero Vigas</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231E1712'/><rect x='3' y='3' width='26' height='26' rx='6' fill='%23B85C2C'/><text x='16' y='23' font-family='Georgia,serif' font-size='21' font-weight='bold' fill='white' text-anchor='middle'>S</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -1153,7 +1154,7 @@ async function analizar(){
   if(!apiKey){alert('Configura tu API Key en Config.');show('config');return;}
   const url=document.getElementById('url-input').value.trim();
   const margen=35000;
-  const notas=document.getElementById('notas-previas').value.trim();
+  const notas=document.getElementById('notas-previas')?.value?.trim()||'';
   if(!url&&archivos.length===0){alert('Añade al menos un PDF o un enlace.');return;}
 
   document.getElementById('btn-area').style.display='none';
@@ -1657,7 +1658,7 @@ function anadirCalendario(){
 function resetForm(){
   archivos=[]; renderFiles();
   document.getElementById('url-input').value='';
-  document.getElementById('notas-previas').value='';
+  const notasEl=document.getElementById('notas-previas'); if(notasEl) notasEl.value='';
   document.getElementById('result-section').style.display='none';
   document.getElementById('btn-area').style.display='block';
   document.getElementById('btn-cal').style.display='none';
@@ -1895,7 +1896,7 @@ function reanalizar(id){
   show('nueva');
   setTimeout(()=>{
     document.getElementById('url-input').value = p._url||'';
-    document.getElementById('notas-previas').value = p._notas||'';
+    const np=document.getElementById('notas-previas'); if(np) np.value=p._notas||'';
     window._reanalizandoId = id;
     // Aviso verde
     const av=document.createElement('div');
